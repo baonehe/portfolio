@@ -1,9 +1,10 @@
 ---
 // Old per-section URLs: each redirects to its section on the main page.
+// /vi/projects/ is a page of its own now (projects.astro), so it is left out.
 import Moved from '../../components/Moved.astro';
 import { sectionOrder } from '../../i18n/content';
 
-export const getStaticPaths = () => sectionOrder.map((section) => ({ params: { section } }));
+export const getStaticPaths = () => sectionOrder.filter((s) => s !== 'projects').map((section) => ({ params: { section } }));
 
 const { section } = Astro.params as { section: (typeof sectionOrder)[number] };
 ---

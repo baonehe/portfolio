@@ -7,7 +7,7 @@ import SceneView from './scene/SceneView.astro';
 import { copy, href, sectionOrder, site, type Lang, type SectionId } from '../i18n/content';
 import { ph, plain } from '../lib/ph';
 import { scene } from '../scene';
-import { arrowDown, arrowOut } from '../sprites';
+import { arrowRight, social } from '../sprites';
 
 interface Props {
   lang: Lang;
@@ -19,9 +19,9 @@ const links = Object.fromEntries(sectionOrder.map((id) => [id, href(lang, id)]))
 const labels = Object.fromEntries(sectionOrder.map((id) => [id, t.sections[id].title])) as Record<SectionId, string>;
 // Outbound links only once they point somewhere real.
 const outbound = [
-  { href: site.links.github, label: t.contact.links.github },
-  { href: site.links.linkedin, label: t.contact.links.linkedin },
-  { href: `mailto:${plain(site.email)}`, label: t.contact.emailLabel },
+  { href: site.links.github, label: t.contact.links.github, icon: social.github },
+  { href: site.links.linkedin, label: t.contact.links.linkedin, icon: social.linkedin },
+  { href: `mailto:${plain(site.email)}`, label: t.contact.emailLabel, icon: social.email },
 ].filter((l) => l.href !== '#');
 ---
 
@@ -37,16 +37,16 @@ const outbound = [
         <p class="ov__intro" set:html={ph(t.hero.intro)} />
         <a class="ov__cta" href={links.projects} data-section="projects">
           {t.ui.viewProjects}
-          <PixelArt sprite={arrowDown} class="ov__cta-icon" />
+          <PixelArt sprite={arrowRight} class="ov__cta-icon" />
         </a>
       </div>
       <ul class="ov__links">
         {
           outbound.map((l) => (
             <li>
-              <a href={l.href}>
-                {l.label}
-                <PixelArt sprite={arrowOut} class="link-icon" />
+              <a href={l.href} title={l.label}>
+                <PixelArt sprite={l.icon} class="ov__link-icon" />
+                <span class="visually-hidden">{l.label}</span>
               </a>
             </li>
           ))
@@ -72,8 +72,6 @@ const outbound = [
         }
       </ul>
     </footer>
-
-    {site.draft && <p class="draft">{t.draftNotice}</p>}
 </section>
 
 <style>
@@ -147,22 +145,27 @@ const outbound = [
   }
 
   .ov__cta :global(.ov__cta-icon) {
-    width: 12px;
-    rotate: -90deg;
+    width: 14px;
   }
 
   .ov__links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 var(--s-5);
+    gap: var(--s-2);
+    /* lines the icons, not their 44px targets, up with the text */
+    margin-inline: -10px;
   }
 
+  /* Icon-only, named for screen readers and in a tooltip. */
   .ov__links a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    min-height: 44px;
-    font-weight: 500;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+
+  .ov__links :global(.ov__link-icon) {
+    width: 24px;
   }
 
   .ov__links a:hover {
@@ -225,19 +228,6 @@ const outbound = [
     color: var(--on-accent);
   }
 
-  .draft {
-    position: absolute;
-    left: var(--s-4);
-    bottom: var(--s-4);
-    z-index: 3;
-    max-width: 260px;
-    padding: var(--s-2) var(--s-3);
-    background: var(--accent);
-    color: var(--on-accent);
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
   @media (min-width: 900px) {
     .ov {
       grid-template-rows: minmax(0, 1fr);
@@ -283,22 +273,8 @@ const outbound = [
     .ov__top {
       flex-direction: column;
     }
-    .draft {
-      position: static;
-      max-width: none;
-      margin: 0 var(--gutter) var(--s-4);
-      justify-self: stretch;
-    }
   }
 
-  @media (max-width: 420px) {
-    .ov__links {
-      gap: var(--s-4);
-    }
-    .ov__links a {
-      font-size: 0.9375rem;
-    }
-  }
 </style>
 
 <script>

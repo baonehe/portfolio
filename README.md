@@ -20,8 +20,7 @@ npm run preview    # serve the build
 ## Edit the content
 
 All the text on the site, in both languages, lives in
-[`src/data/portfolio.ts`](src/data/portfolio.ts). Text in `[square brackets]` is
-placeholder content; set `draft: false` there once it is all replaced.
+[`src/data/portfolio.ts`](src/data/portfolio.ts).
 
 ## Project layout
 

@@ -3,7 +3,7 @@
 // language switch. Wide screens show it as one row; narrow ones fold the
 // sections and languages behind a "Contents" button. Without JavaScript the
 // narrow menu stays a scrollable row instead.
-import { copy, href, sectionOrder, site, type Lang } from '../i18n/content';
+import { copy, href, sectionOrder, site, type Lang, type SectionId } from '../i18n/content';
 import { ph } from '../lib/ph';
 import { arrowDown } from '../sprites';
 import LangSwitch from './LangSwitch.astro';
@@ -11,9 +11,13 @@ import PixelArt from './PixelArt.astro';
 
 interface Props {
   lang: Lang;
+  /** On a page of its own (not the home page): the section it belongs to. */
+  current?: SectionId;
+  /** This page's URL in each language, for the language switch. */
+  pages?: Record<Lang, string>;
 }
 
-const { lang } = Astro.props;
+const { lang, current, pages } = Astro.props;
 const t = copy[lang];
 ---
 
@@ -33,7 +37,7 @@ const t = copy[lang];
         {
           sectionOrder.map((id) => (
             <li>
-              <a href={href(lang, id)} data-nav={id}>
+              <a href={href(lang, id)} data-nav={id} aria-current={id === current ? 'page' : undefined}>
                 {t.sections[id].title}
               </a>
             </li>
@@ -41,7 +45,7 @@ const t = copy[lang];
         }
       </ul>
     </nav>
-    <LangSwitch lang={lang} />
+    <LangSwitch lang={lang} pages={pages} />
   </div>
 </header>
 
@@ -126,7 +130,7 @@ const t = copy[lang];
   }
 
   .nav__toggle :global(.nav__toggle-icon) {
-    width: 12px;
+    width: 14px;
   }
 
   .nav__toggle[aria-expanded='true'] :global(.nav__toggle-icon) {

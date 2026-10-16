@@ -25,6 +25,9 @@
   --px-mid: #42545c;
   --px-soft: #a7b4ba;
   --px-light: #f0f5f5;
+  --px-clay: #d97757; /* the Claude characters in the baoOS illustration */
+  --px-gold: #f2c14e; /* the duck's crown and beak */
+  --px-gold-deep: #b9862b;
 
   --font-display: 'Bricolage Grotesque Variable', 'Be Vietnam Pro', sans-serif;
   --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
@@ -163,7 +166,7 @@ a {
   image-rendering: pixelated;
 }
 
-/* The small arrow after outbound links. */
+/* The small arrow after outbound links (5 × 5 grid at 2×). */
 .link-icon {
   flex: none;
   width: 10px;

@@ -1,0 +1,284 @@
+---
+// Every project on one page, grouped by where it was done. The home page keeps
+// three as case studies and links here; entries that match one link back.
+import Base from '../layouts/Base.astro';
+import PixelArt from './PixelArt.astro';
+import SiteNav from './SiteNav.astro';
+import { copy, href, projectsPaths, type Lang } from '../i18n/content';
+import { ph } from '../lib/ph';
+import { arrowLeft, arrowOut } from '../sprites';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].archive;
+const caseStudies = new Set(copy[lang].work.projects.map((p) => p.id));
+---
+
+<Base lang={lang} title={t.title} description={t.intro} alternates={projectsPaths}>
+  <SiteNav lang={lang} current="projects" pages={projectsPaths} />
+  <main id="main" class="archive">
+    <header class="archive__head wrap">
+      <a class="archive__back" href={href(lang, 'projects')}>
+        <PixelArt sprite={arrowLeft} class="archive__back-icon" />
+        {t.back}
+      </a>
+      <h1 class="display archive__title">{t.title}</h1>
+      <p class="archive__intro">{t.intro}</p>
+    </header>
+
+    {
+      t.groups.map((g) => (
+        <section class="group" id={g.id} aria-labelledby={`${g.id}-heading`}>
+          <header class="group__head wrap">
+            <h2 id={`${g.id}-heading`} class="group__name">
+              {g.name}
+            </h2>
+            <p class="group__meta label">{g.meta}</p>
+          </header>
+
+          <ol class="wrap entries">
+            {g.projects.map((p) => {
+              const links = [
+                ...(caseStudies.has(p.id) ? [{ label: t.caseStudy, href: href(lang, p.id), out: false }] : []),
+                ...p.links.filter((l) => l.href !== '#').map((l) => ({ ...l, out: true })),
+              ];
+              return (
+                <li class="entry" id={p.id}>
+                  <div class="entry__side">
+                    <h3 class="display entry__title" set:html={ph(p.title)} />
+                    <p class="entry__role label" set:html={ph(p.role)} />
+                    {links.length > 0 && (
+                      <ul class="entry__links">
+                        {links.map((l) => (
+                          <li>
+                            <a href={l.href}>
+                              {l.label}
+                              {l.out && <PixelArt sprite={arrowOut} class="link-icon" />}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div class="entry__main">
+                    <p class="entry__summary" set:html={ph(p.summary)} />
+                    <ul class="entry__points">
+                      {p.points.map((point) => (
+                        <li set:html={ph(point)} />
+                      ))}
+                    </ul>
+                    <ul class="tags" aria-label={t.stack}>
+                      {p.stack.map((s) => (
+                        <li class="pixel" set:html={ph(s)} />
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      ))
+    }
+
+    <p class="wrap archive__foot">
+      <a class="archive__back" href={href(lang, 'projects')}>
+        <PixelArt sprite={arrowLeft} class="archive__back-icon" />
+        {t.back}
+      </a>
+    </p>
+  </main>
+</Base>
+
+<style>
+  .archive {
+    padding-top: var(--nav-total);
+    padding-bottom: var(--s-10);
+  }
+
+  .archive__head {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-7) var(--s-8);
+  }
+
+  .archive__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    justify-self: start;
+    min-height: 44px;
+    color: var(--link);
+    font-weight: 600;
+  }
+
+  .archive__back:hover {
+    color: var(--ink);
+  }
+
+  .archive__back :global(.archive__back-icon) {
+    flex: none;
+    width: 14px;
+  }
+
+  .archive__title {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+  }
+
+  .archive__intro {
+    color: var(--muted);
+    font-size: clamp(1.125rem, 0.6vw + 1rem, 1.375rem);
+    max-width: 52ch;
+  }
+
+  .group {
+    border-top: 1px solid var(--line);
+    padding-top: var(--s-7);
+  }
+
+  .group__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-5);
+    padding-bottom: var(--s-6);
+  }
+
+  /* A diamond-ore block marks each group, like the roles on the timeline. */
+  .group__name {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 85%;
+    font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+    line-height: 1.05;
+  }
+
+  .group__name::before {
+    content: '';
+    flex: none;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    box-shadow: inset -4px -4px 0 var(--accent-deep);
+  }
+
+  .group__meta {
+    color: var(--muted);
+  }
+
+  .entries {
+    display: grid;
+    padding-bottom: var(--s-8);
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-5);
+    row-gap: var(--s-4);
+    padding-block: var(--s-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .entry__side {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--nav-total) + var(--s-5));
+  }
+
+  /* The write-up gets the wider column. */
+  .entry__main {
+    grid-column: 5 / span 8;
+    display: grid;
+    gap: var(--s-4);
+    max-width: 68ch;
+  }
+
+  .entry__title {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+  }
+
+  .entry__role {
+    color: var(--muted);
+  }
+
+  .entry__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--s-5);
+  }
+
+  .entry__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    font-weight: 600;
+    color: var(--link);
+  }
+
+  .entry__links a:hover {
+    color: var(--ink);
+  }
+
+  .entry__summary {
+    font-size: 1.1875rem;
+    line-height: 1.45;
+  }
+
+  .entry__points {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .entry__points li {
+    position: relative;
+    padding-left: var(--s-5);
+  }
+
+  .entry__points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-deep);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    padding-top: var(--s-2);
+  }
+
+  .tags li {
+    border: 1px solid var(--control);
+    padding: var(--s-1) var(--s-2);
+  }
+
+  .archive__foot {
+    padding-top: var(--s-4);
+  }
+
+  @media (max-width: 960px) {
+    .entry__side,
+    .entry__main {
+      grid-column: 1 / -1;
+    }
+    .entry__side {
+      position: static;
+    }
+  }
+</style>

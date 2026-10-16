@@ -29,10 +29,10 @@ host-agnostic.
 
 | Path | What |
 |---|---|
-| `src/data/portfolio.ts` | **All site text**, EN and VI, plus name/email/links and the `draft` flag |
+| `src/data/portfolio.ts` | **All site text**, EN and VI, plus name/email/links |
 | `src/i18n/content.ts` | Languages, section order, URLs, content types (no text) |
-| `src/pages/` | `/` and `/vi/` (the page); `/[section]/` and `/vi/[section]/` only redirect old links to `/#section` |
-| `src/components/` | `Home` (page shell), `SiteNav` (fixed menu), `Hero` (scene), one component per section, `Moved` (redirect page) |
+| `src/pages/` | `/` and `/vi/` (the page); `/projects/` and `/vi/projects/` (every project); the other `/[section]/` URLs only redirect old links to `/#section` |
+| `src/components/` | `Home` (page shell), `SiteNav` (fixed menu), `Hero` (scene), one component per section, `AllProjects` (the all-projects page), `Moved` (redirect page) |
 | `src/scene/` | Scene manifests (characters, objects, environment, overview) and the renderer/animator/navigator modules |
 | `src/assets/scene/` | Scene art as PNG |
 | `src/sprites/` | Small UI pixel art (icons, project illustrations) drawn on grids, rendered as SVG |
@@ -46,8 +46,7 @@ host-agnostic.
   deriving it from the English.
 - Only real content. Text in `[square brackets]` is a placeholder and renders
   highlighted; never present placeholder or invented projects, metrics,
-  employers or skills as fact. Turn `site.draft` off only once nothing is left
-  in brackets.
+  employers or skills as fact.
 - Project art is illustration, never passed off as a product screenshot.
 
 ## The page
@@ -63,9 +62,20 @@ host-agnostic.
 - Menu, CTA and scene clicks add a history entry (Back returns); scrolling by
   hand does not. After a jump, focus moves to the section heading.
 - Old `/<section>/` URLs are static meta-refresh pages to `/#<section>`, so the
-  build stays host-agnostic.
+  build stays host-agnostic. The exception is `/projects/`, which is now its
+  own page.
 - Outbound links (GitHub, LinkedIn, CV, project links) render only once their
   `href` is real, not `'#'`.
+
+## The projects page
+
+- The home page shows three projects as case studies (`work.projects`), then a
+  "See all projects" link to `/projects/` (`/vi/projects/`).
+- That page lists every project from the résumé (`archive.groups`), grouped by
+  where it was done, newest first. An entry whose `id` matches a case study
+  links back to it (`/#<id>`); its back link returns to `/#projects`.
+- It uses the same fixed menu, with Projects marked as the current page; the
+  language switch goes to the same page in the other language.
 
 ## The scene
 
@@ -89,7 +99,9 @@ host-agnostic.
 - Dark only. Tokens live in `src/styles/global.css`: obsidian `#101418`
   background, deepslate `#1B252C` surfaces, diamond-cyan `#42E8DC` as the one
   accent, diamond-teal `#187F91` secondary, text `#F0F5F5` / `#A7B4BA`. Pixel
-  art may add skin tones, wood brown and the moon's white.
+  art may add skin tones, wood brown, the moon's white and, only for the
+  Claude characters in the baoOS illustration, clay orange `--px-clay`, and
+  for the duck's crown and beak in About, gold `--px-gold`.
 - Type: Bricolage Grotesque for display, Be Vietnam Pro for body (it covers
   Vietnamese well), Silkscreen pixel font only for short labels. Never use the
   pixel font for paragraphs.

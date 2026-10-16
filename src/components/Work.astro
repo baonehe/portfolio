@@ -1,7 +1,7 @@
 ---
-import { copy, type Lang } from '../i18n/content';
+import { copy, projectsPaths, type Lang } from '../i18n/content';
 import { ph } from '../lib/ph';
-import { art, arrowOut } from '../sprites';
+import { art, arrowOut, arrowRight } from '../sprites';
 import PixelArt from './PixelArt.astro';
 import PixelReveal from './PixelReveal.astro';
 
@@ -11,7 +11,8 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = copy[lang].work;
-const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(--surface)' };
+const grounds = { security: 'var(--accent)', social: 'var(--pop)', agents: 'var(--surface)' };
+const total = copy[lang].archive.groups.reduce((n, g) => n + g.projects.length, 0);
 ---
 
 <div class="work">
@@ -31,7 +32,6 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
 
             <article class="project__body" aria-labelledby={`${p.id}-title`}>
               <p class="project__meta">
-                <span class="pixel" set:html={ph(p.year)} />
                 <span class="label" set:html={ph(p.role)} />
               </p>
               <h3 id={`${p.id}-title`} class="display project__title" set:html={ph(p.title)} />
@@ -83,12 +83,50 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
         ))
       }
     </ol>
+
+    <a class="work__all" href={projectsPaths[lang]}>
+      <span>{t.allLink}</span>
+      <span class="work__count pixel">{total}</span>
+      <PixelArt sprite={arrowRight} class="work__all-icon" />
+    </a>
   </div>
 </div>
 
 <style>
   .work {
     padding-bottom: var(--s-9);
+  }
+
+  /* After the case studies: the way to every project, on its own page. */
+  .work__all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: 56px;
+    margin-top: var(--s-9);
+    padding: 0 var(--s-5);
+    border: 1px solid var(--control);
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-decoration: none;
+  }
+
+  .work__all:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .work__count {
+    color: var(--muted);
+  }
+
+  .work__all:hover .work__count {
+    color: inherit;
+  }
+
+  .work__all :global(.work__all-icon) {
+    width: 14px;
   }
 
   .work__intro {

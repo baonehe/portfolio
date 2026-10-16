@@ -5,21 +5,23 @@ import { copy, paths, type Lang } from '../i18n/content';
 
 interface Props {
   lang: Lang;
+  /** This page's URL in each language (defaults to the home page). */
+  pages?: Record<Lang, string>;
 }
 
-const { lang } = Astro.props;
+const { lang, pages = paths } = Astro.props;
 ---
 
 <nav class="lang" aria-label={copy[lang].ui.langLabel}>
   {
-    (Object.keys(paths) as Lang[]).map((l) => (
+    (Object.keys(pages) as Lang[]).map((l) => (
       <a
         class="pixel"
-        href={paths[l]}
+        href={pages[l]}
         hreflang={l}
         lang={l}
         aria-current={l === lang ? 'page' : undefined}
-        data-lang-base={paths[l]}
+        data-lang-base={pages[l]}
       >
         {l.toUpperCase()}
       </a>

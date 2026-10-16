@@ -129,7 +129,6 @@ Placeholder hiện được đánh dấu là bản nháp có chủ đích. Trư�
 - Thay tên, địa điểm, email và nội dung mẫu bằng thông tin thật.
 - Thay các liên kết `#` bằng URL thật cho GitHub, LinkedIn, CV và dự án; ẩn mục chưa có đích đến phù hợp.
 - Bổ sung dự án thật, mô tả vai trò, quyết định kỹ thuật và kết quả có thể chứng minh.
-- Chỉ tắt `draft` sau khi hoàn tất nội dung.
 
 **Vị trí liên quan:** `src/data/portfolio.ts`.
 

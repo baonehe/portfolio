@@ -1,7 +1,7 @@
 ---
 import { copy, type Lang } from '../i18n/content';
 import { ph } from '../lib/ph';
-import { mug } from '../sprites';
+import { duck, mug } from '../sprites';
 import PixelArt from './PixelArt.astro';
 
 interface Props {
@@ -31,7 +31,10 @@ const t = copy[lang].about;
             ))
           }
         </dl>
-        <PixelArt sprite={mug} class="about__mug" />
+        <div class="about__desk">
+          <PixelArt sprite={mug} class="about__mug" />
+          <PixelArt sprite={duck} class="about__duck" />
+        </div>
       </div>
   </div>
 </div>
@@ -92,7 +95,15 @@ const t = copy[lang].about;
     font-weight: 500;
   }
 
-  .about__aside :global(.about__mug) {
+  /* The mug and the duck share one table line: both grids are 14 wide at 6×. */
+  .about__desk {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .about__desk :global(.about__mug),
+  .about__desk :global(.about__duck) {
+    flex: none;
     width: 84px;
   }
 

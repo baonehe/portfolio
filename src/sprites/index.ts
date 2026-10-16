@@ -11,6 +11,9 @@ export const palette: Record<string, string> = {
   b: 'var(--accent-deep)',
   L: 'var(--pop)',
   l: 'var(--pop-deep)',
+  O: 'var(--px-clay)',
+  Y: 'var(--px-gold)',
+  y: 'var(--px-gold-deep)',
   C: 'currentColor',
 };
 
@@ -21,84 +24,112 @@ export type Sprite = { w: number; h: number; rows?: string[]; ops?: Op[] };
 
 // Project illustrations share one 40 × 28 grid so their pixel density matches.
 
-export const rack: Sprite = {
+// MainDeck: a feed card with a privacy lock, linked to the people around it.
+export const feed: Sprite = {
   w: 40,
   h: 28,
-  ops: [
-    [4, 25, 32, 1, 'b'],
-    [12, 3, 16, 22, 'K'],
-    ...[4, 10, 16].flatMap((y): Op[] => [
-      [13, y, 14, 5, 'W'],
-      [15, y + 2, 6, 1, 'G'],
-      [22, y + 2, 1, 1, 'g'],
-      [24, y + 2, 1, 1, 'L'],
-    ]),
-    [13, 22, 14, 2, 'G'],
-    [13, 25, 2, 1, 'K'],
-    [25, 25, 2, 1, 'K'],
-    [28, 6, 4, 1, 'W'],
-    [31, 6, 1, 13, 'W'],
-    [28, 18, 3, 1, 'W'],
-    [30, 11, 4, 4, 'L'],
-    [31, 12, 2, 2, 'l'],
-    [5, 7, 2, 2, 'L'],
-    [7, 13, 2, 2, 'W'],
-    [4, 18, 2, 2, 'W'],
-    [35, 4, 1, 1, 'W'],
-    [36, 21, 1, 1, 'W'],
+  rows: [
+    '........................................',
+    '.........................KKK............',
+    '.............KKKKKKKKKKKKKK.K...........',
+    '..KKKKKKK....KWWWWWWWWWWKWK.K...........',
+    '..KKWWWKK....KWBBBWKKKWKKKKKKK..........',
+    '..KKWWWKK....KWBBBWWWWWKBBBBBK..........',
+    '..KKKKKKKllllKWBBBWgggWKBBKBBK..........',
+    '..KWWWWWK....KWWWWWWWWWKBBKBBK..........',
+    '..KWWWWWK....KWGGGGGGGGKKKKKKK.KKKKKKK..',
+    '..KKKKKKK....KWGGGGGGGGWWWK....KKWWWKK..',
+    '.....l.......KWWWWWWWWWWWWK....KKWWWKK..',
+    '.....l.......KWLLWLLWWWWWWKllllKKKKKKK..',
+    '.....l.......KWLLLLLWWWWWWK....KWWWWWK..',
+    '.....l.......KWWLLLWWWWWWWK....KWWWWWK..',
+    '.....l.......KWWWLWWWWWWWWK....KKKKKKK..',
+    '.....l.......KWWWWWWWWWWWWK.......l.....',
+    '..KKKKKKK....KggggggggggggK.......l.....',
+    '..KKWWWKK....KWWWWWWWWWWWWK....KKKKKKK..',
+    '..KKWWWKK....KWBBBWKKKWWWWK....KKWWWKK..',
+    '..KKKKKKKllllKWBBBWWWWWWWWK....KKWWWKK..',
+    '..KWWWWWK....KWBBBWgggWWWWKllllKKKKKKK..',
+    '..KWWWWWK....KWWWWWWWWWWWWK....KWWWWWK..',
+    '..KKKKKKK....KWGGGGGGGGGGWK....KWWWWWK..',
+    '.............KWGGGGGGGGWWWK....KKKKKKK..',
+    '.............KKKKKKKKKKKKKK.............',
+    '....llllllllllllllllllllllllllllllll....',
+    '........................................',
+    '........................................',
   ],
 };
 
-export const database: Sprite = {
+// Modat: packets on the wire, a malicious one stopped at the shield, results out.
+export const shield: Sprite = {
   w: 40,
   h: 28,
-  ops: [
-    [4, 25, 32, 1, 'l'],
-    // cylinder
-    [13, 3, 12, 1, 'K'],
-    [11, 4, 16, 1, 'K'],
-    [10, 5, 18, 18, 'K'],
-    [11, 23, 16, 1, 'K'],
-    [13, 24, 12, 1, 'K'],
-    [12, 5, 14, 1, 'G'],
-    [13, 6, 12, 1, 'G'],
-    // disc rings
-    [10, 11, 1, 1, 'W'], [11, 12, 16, 1, 'W'], [27, 11, 1, 1, 'W'],
-    [10, 17, 1, 1, 'W'], [11, 18, 16, 1, 'W'], [27, 17, 1, 1, 'W'],
-    [13, 9, 2, 1, 'L'], [13, 15, 2, 1, 'L'], [13, 21, 2, 1, 'L'],
-    // table
-    [30, 6, 7, 9, 'K'],
-    [31, 7, 5, 7, 'W'],
-    [31, 9, 5, 1, 'K'], [31, 11, 5, 1, 'K'], [33, 7, 1, 7, 'K'],
-    [31, 7, 2, 2, 'B'],
-    // link
-    [28, 10, 2, 1, 'K'],
-    [4, 6, 3, 3, 'K'],
-    [5, 7, 1, 1, 'W'],
-    [6, 16, 2, 2, 'B'],
+  rows: [
+    '........................................',
+    '........................................',
+    '........................................',
+    '........................................',
+    '....KK........KKKKKKKKKKKK..............',
+    '....KK........KWWWWWWWWWWK..............',
+    '..............KWWWWWWWWWWK.....KKKKKKKK.',
+    '..............KWWWWWWWWWWK.....KWWWWWWK.',
+    '..............KWWWWWWWWWWK.....KWWWWWWK.',
+    '..............KWWWWWWWWbbK.....KWWWWWWK.',
+    '..............KWWWWWWWbbWK.....KWWWbWWK.',
+    '..............KWWWWWWbbWWK.....KWWWbWWK.',
+    '..WWW.WWW.KWK.KWbbWWbbWWWK.WWW.KWWWbWlK.',
+    '..WWW.WWW.WKW.KWWbbbbWWWWK.WWW.KWbWbWlK.',
+    '.bWWWbWWWbKWKbKWWWbbWWWWWKbWWWbKWbWbWlK.',
+    '..............KWWWWWWWWWWK.....KWbWbWlK.',
+    '...............KWWWWWWWWK......KWbWbWlK.',
+    '...............KWWWWWWWWK......KWWWWWWK.',
+    '................KWWWWWWK.......KKKKKKKK.',
+    '.................KWWWWK.................',
+    '........WW........KWWK..................',
+    '........WW.........KK...................',
+    '...................................K....',
+    '........................................',
+    '........................................',
+    '.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.',
+    '........................................',
+    '........................................',
   ],
 };
 
-export const pipeline: Sprite = {
+// baoOS: Claude characters at work, passing a ticket and a plan down the line;
+// the third carries the merge request off.
+export const agents: Sprite = {
   w: 40,
   h: 28,
-  ops: [
-    // belt
-    [3, 18, 34, 2, 'G'],
-    [3, 20, 34, 1, 'g'],
-    ...[5, 13, 21, 29].map((x): Op => [x, 21, 2, 2, 'W']),
-    [5, 23, 28, 1, 'G'],
-    // packets
-    [6, 12, 6, 6, 'L'], [7, 13, 4, 1, 'l'], [8, 15, 2, 2, 'K'],
-    [15, 12, 6, 6, 'W'], [16, 14, 4, 1, 'G'], [16, 16, 3, 1, 'G'],
-    [24, 12, 6, 6, 'B'], [25, 13, 4, 4, 'b'],
-    // worker node
-    [32, 5, 6, 13, 'W'],
-    [33, 7, 4, 1, 'K'], [33, 9, 4, 1, 'K'],
-    [34, 12, 2, 2, 'L'],
-    // flow arrow
-    [8, 6, 16, 1, 'G'], [22, 5, 1, 3, 'G'], [23, 6, 1, 1, 'G'],
-    [3, 4, 2, 2, 'L'],
+  rows: [
+    '........................................',
+    '........................................',
+    '........................................',
+    '....WWWWWW.......WWWWWW..............W..',
+    '....WKKKKW...B...WBWWWW....B............',
+    '....WGGGWW.GGBGG.WWWGGW.GGGBGG..........',
+    '....WGGGGW...B...WBWWWW....B.G..........',
+    '....WWWWWW.......WWWWWW......G.....BB...',
+    '.............................G.....BB...',
+    '.W...........................G..........',
+    '.............................G..........',
+    '.............................G..........',
+    '...OOOOOOO......OOOOOOO......G..........',
+    '...OKOOOKO......OKOOOKO.......WWWWWW....',
+    '...OKOOOKO......OKOOOKO.......WBWWWW....',
+    '..OgggggggO....OgggggggO......WWKKKW....',
+    '...ggggggg......ggggggg.......WGGGGW....',
+    '...gggWggg......gggWggg.......WWWWWW....',
+    '...ggggggg......ggggggg.......OOOOOOO...',
+    '...ggggggg......ggggggg.......OKOOOKO...',
+    '..WWWWWWWWW....WWWWWWWWW......OKOOOKO...',
+    '.KKKKKKKKKKKKKKKKKKKKKKKKK...OOOOOOOOO..',
+    '..K.....................K.....OOOOOOO...',
+    '..K.....................K.....OOOOOOO...',
+    '..K.....................K.....O.O.O.O...',
+    '.GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG.',
+    '........................................',
+    '........................................',
   ],
 };
 
@@ -117,20 +148,115 @@ export const mug: Sprite = {
     '.KBBBBBBBKKK..',
     '.KbBBBBBbK....',
     '..KKKKKKK.....',
-    'KKKKKKKKKKKK..',
+    'KKKKKKKKKKKKKK',
   ],
 };
 
+// Sits beside the mug on the same table (same 14-wide grid, table row last).
+export const duck: Sprite = {
+  w: 14,
+  h: 14,
+  rows: [
+    '....Y.Y.Y.....',
+    '....YYYYY.....',
+    '....yyLyy.....',
+    '....BBBBB.....',
+    '...BBBBBBB....',
+    '...BBKBBBB....',
+    '.YYBBBBBBB....',
+    'YYYyBBBBBB....',
+    '....BBBBBB..BB',
+    '..BBBBBBBBBBBB',
+    '..BBBbbbbBBBBb',
+    '..bBBBbbBBBBb.',
+    '...bbBBBBBbb..',
+    'KKKKKKKKKKKKKK',
+  ],
+};
+
+// Arrows render at twice their grid (7 × 7 at 14px, 5 × 5 at 10px), so every
+// pixel stays a crisp 2 × 2 square.
 export const arrowDown: Sprite = {
   w: 7,
   h: 7,
   rows: ['...C...', '...C...', '...C...', 'C..C..C', '.C.C.C.', '..CCC..', '...C...'],
 };
 
-export const arrowOut: Sprite = {
+export const arrowRight: Sprite = {
   w: 7,
   h: 7,
-  rows: ['..CCCCC', '....CCC', '...C.CC', '..C...C', '.C.....', 'C......', '.......'],
+  rows: ['...C...', '....C..', '.....C.', 'CCCCCCC', '.....C.', '....C..', '...C...'],
+};
+
+export const arrowLeft: Sprite = {
+  w: 7,
+  h: 7,
+  rows: ['...C...', '..C....', '.C.....', 'CCCCCCC', '.C.....', '..C....', '...C...'],
+};
+
+// Outbound profile links. One 12 × 12 grid each, in currentColor, so they
+// scale by whole pixels and follow the link's hover color.
+export const social: Record<'github' | 'linkedin' | 'email', Sprite> = {
+  github: {
+    w: 12,
+    h: 12,
+    rows: [
+      '...CCCCCC...',
+      '.CCCCCCCCCC.',
+      '.C.CCCCCC.C.',
+      'CC..CCCC..CC',
+      'CC........CC',
+      'CC........CC',
+      'CC........CC',
+      'CCC......CCC',
+      'CC.C....CCCC',
+      '.C......CCC.',
+      '.CCC....CCC.',
+      '...C....C...',
+    ],
+  },
+  linkedin: {
+    w: 12,
+    h: 12,
+    rows: [
+      '.CCCCCCCCCC.',
+      'CCCCCCCCCCCC',
+      'CC..CCCCCCCC',
+      'CC..CCCCCCCC',
+      'CCCCCCCCCCCC',
+      'CC..C....CCC',
+      'CC..C..C..CC',
+      'CC..C..C..CC',
+      'CC..C..C..CC',
+      'CC..C..C..CC',
+      'CCCCCCCCCCCC',
+      '.CCCCCCCCCC.',
+    ],
+  },
+  email: {
+    w: 12,
+    h: 12,
+    rows: [
+      '............',
+      '............',
+      'CCCCCCCCCCCC',
+      'C.CCCCCCCC.C',
+      'CC.CCCCCC.CC',
+      'CCC.CCCC.CCC',
+      'CCCC.CC.CCCC',
+      'CCCCC..CCCCC',
+      'CCCCCCCCCCCC',
+      'CCCCCCCCCCCC',
+      '............',
+      '............',
+    ],
+  },
+};
+
+export const arrowOut: Sprite = {
+  w: 5,
+  h: 5,
+  rows: ['.CCCC', '...CC', '..C.C', '.C...', 'C....'],
 };
 
 export const icons: Record<string, Sprite> = {
@@ -211,7 +337,7 @@ export const icons: Record<string, Sprite> = {
   },
 };
 
-export const art = { rack, database, pipeline };
+export const art = { social: feed, security: shield, agents };
 
 /** Flattens a sprite into merged horizontal runs, ready for SVG <rect>s. */
 export function toRects(sprite: Sprite): Op[] {
