@@ -39,6 +39,10 @@ const total = copy[lang].archive.groups.reduce((n, g) => n + g.projects.length, 
 
               <dl class="project__facts">
                 <div>
+                  <dt class="label">{t.labels.outcome}</dt>
+                  <dd set:html={ph(p.outcome)} />
+                </div>
+                <div>
                   <dt class="label">{t.labels.problem}</dt>
                   <dd set:html={ph(p.problem)} />
                 </div>
@@ -49,10 +53,6 @@ const total = copy[lang].archive.groups.reduce((n, g) => n + g.projects.length, 
                 <div>
                   <dt class="label">{t.labels.decisions}</dt>
                   <dd set:html={ph(p.decisions)} />
-                </div>
-                <div>
-                  <dt class="label">{t.labels.outcome}</dt>
-                  <dd set:html={ph(p.outcome)} />
                 </div>
               </dl>
 

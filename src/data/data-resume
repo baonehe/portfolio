@@ -1,0 +1,278 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[letterpaper,margin=0.5in]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+	\usepackage[utf8]{inputenc}
+	\usepackage[T1]{fontenc}
+	\usepackage{textcomp}
+	\usepackage{helvet}
+\else
+	\usepackage{fontspec}
+	\setsansfont{TeX Gyre Heros}
+\fi
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mdwlist}
+\usepackage{fontawesome}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\setlength{\tabcolsep}{0em}
+
+\newcommand{\headerrow}[2]
+{\begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
+#1 &
+#2 \\
+\end{tabular*}}
+
+\newcommand{\project}[3]
+{\vspace{0.3em}{\textbf{#1}}\par
+{\small \emph{#2} \quad\textbar\quad \textbf{Tech:} #3}\par}
+
+\begin{document}
+
+\begin{center}
+	{\LARGE \textbf{Tran Du Gia Bao}}\\
+	\vspace{0.05cm}
+	Full-Stack Developer (.NET / React) \textbar{} AI Workflow Automation \textbar{} Ho Chi Minh City, Vietnam
+	\vspace{0.05cm}
+	\\
+	\raisebox{-0.2\height} {\Large \faPhoneSquare} \ \ (+84) 904 020 529 \hfill
+	\raisebox{-0.2\height}{\Large \faEnvelopeSquare} \ \ \href{mailto:giabao1352002@gmail.com}{giabao1352002@gmail.com} \hfill
+	\raisebox{-0.2\height}{\Large \faGithubSquare} \ \ \href{https://github.com/baonehe}{github.com/baonehe} \hfill
+	\raisebox{-0.2\height}{\Large \faLinkedinSquare} \ \ \href{https://www.linkedin.com/in/trandugiabao1305/}{linkedin.com/in/trandugiabao1305}
+\end{center}
+
+\hrule
+\vspace{-1em}
+\subsection*{\Large Summary}
+
+\begin{itemize}[leftmargin=1em,label={}]
+    \item Full-Stack Developer with \textbf{2+ years of experience} across freelance work and IT outsourcing, building business applications and working directly with European clients. Strong in backend engineering, system migration, and performance optimization. Applies \textbf{AI-SDLC}, a self-built multi-agent workflow that streamlines software delivery from Jira tickets to merge requests and reduces development time per ticket by approximately \textbf{20\%}.
+\end{itemize}
+
+\hrule
+\vspace{-1em}
+\subsection*{\Large Experience}
+
+\renewcommand\labelitemi{}
+\renewcommand\labelitemii{$\bullet$}
+\begin{itemize}[leftmargin=1em]
+	\parskip=0.1em
+
+	\item
+	      \headerrow
+	      {\textbf{MOR Software JSC} -- IT Outsourcing}
+	      {\textbf{Ho Chi Minh City}}
+	      \headerrow
+	      {\emph{Full-Stack Developer}}
+	      {\emph{March 2025 -- Present}}
+
+	      %----- MainDeck -----
+	      \project
+	      {MainDeck -- Privacy-first Professional Network (EU, 1,900 users) \href{https://maindeck.eu}{\small\mdseries\faExternalLink}}
+	      {Full-Stack Developer, (client-facing)}
+	      {Next.js, React, TypeScript, Node.js, Fastify, PostgreSQL, Mollie, ClamAV}
+	      \begin{itemize*}
+	      	\item Developed features end to end for an EU-hosted alternative to LinkedIn, with Next.js on the front-end and Fastify REST APIs on the back-end; worked directly with the EU client.
+	      	\item Refactored the back-end into a 3-layer architecture (route, service, repository), separating business logic from data access so modules are easier to test and change.
+	      	\item Integrated \textbf{Mollie} subscription payments through webhooks, confirming payment status against the Mollie API and processing each webhook with an idempotency key, so retried webhooks never activate a plan twice.
+	      	\item Fixed race conditions in the subscription payment and post-creation flows with database transactions and row locking, preventing double charges and duplicate posts.
+	      	\item Found and fixed IDOR vulnerabilities by enforcing resource-ownership checks on API endpoints; added ClamAV scanning so infected uploads are rejected before storage.
+	      	\item Encrypted all users' personal and account data (everything except names) with CRT-RSA before it reaches the database, with keys kept on the server, in line with the platform's privacy-first promise.
+	      	\item Tuned PostgreSQL with EXPLAIN ANALYZE: added composite indexes for post search and connection queries and removed redundant indexes, cutting response time of these APIs by about \textbf{40\%} and speeding up writes.
+	      \end{itemize*}
+
+	      %----- Modat -----
+	      \project
+	      {Modat -- Internal Network Analysis Platform (Netherlands) \href{https://www.modat.io}{\small\mdseries\faExternalLink}}
+	      {Back-end Developer, (client-facing)}
+	      {Python, FastAPI, Wireshark/tshark, PostgreSQL, Redis, Docker}
+	      \begin{itemize*}
+	      	\item Built the FastAPI back-end, using a 3-layer architecture, for a collaboration platform where 10 communities, 30 groups and about 300 users upload and analyze network capture files together.
+	      	\item Embedded Wireshark (tshark) to parse capture files of around 1 million packets and analyze FTP and UDP traffic, cutting processing time from \textbf{15s to 2--3s}.
+	      	\item Streamed analysis results to the front-end through chunked HTTP responses, so users see data progressively instead of waiting for the whole file.
+	      	\item Cached processed results in Redis, so other members of a group open an analyzed file almost instantly, cutting response time by about \textbf{80\%} on repeat views.
+	      	\item Validated uploads by MIME type and file signature to block malicious files before processing; worked directly with the Dutch client in English.
+	      \end{itemize*}
+
+	      %----- KOKEN -----
+	      \project
+	      {KOKEN -- Electronic Components Material Management, CakePHP to Laravel}
+	      {Full-Stack Developer (client-facing)}
+	      {PHP, CakePHP, Laravel, MySQL (self-hosted on EC2), AWS (EC2, S3), Claude Code (baoOS)}
+	      \begin{itemize*}
+	      	\item Migrated an undocumented material management system for electronic components, backed by a 500GB MySQL database self-hosted on AWS EC2, from CakePHP to Laravel, cutting the timeline from \textbf{6 months to 3}.
+	      	\item Led the migration workflow: used baoOS to reverse-engineer the legacy code into a knowledge base (architecture, data model, business rules) before writing new code.
+	      	\item Turned legacy logic into flow documents and confirmed each flow with the client before implementation, catching mismatched business rules early.
+	      	\item Verified each migrated module 1:1 against the legacy source, comparing behavior and output on the same data before sign-off.
+	      	\item Built scheduled jobs to synchronize data between the legacy and new systems during the transition.
+	      \end{itemize*}
+
+	      %----- LACO Group -----
+	      \project
+	      {LACO Group -- Product Traceability System for Dong Thap Province}
+	      {Full-Stack Developer, team of 6}
+	      {C\#, .NET Core, Microservices, ReactJS, React Native, SQL Server, CI/CD}
+	      \begin{itemize*}
+	      	\item Developed a multi-tenant traceability platform on a microservices architecture, with web and mobile apps for generating and scanning product QR codes.
+	      	\item Built a log table and a dedicated log-viewer web page, so production incidents can be traced and root-caused quickly.
+	      	\item Sped up heavy reports by replacing ORM queries with stored procedures and raw SQL, cutting their load time by about \textbf{30\%}.
+	      	\item Presented demos to Dong Thap Province stakeholders; deployed releases through CI/CD and maintained API documentation and release notes.
+	      \end{itemize*}
+
+	      %----- WorkLog -----
+	      \project
+	      {WorkLog -- Work \& Activity Tracking for Real-Estate Operations}
+	      {Back-end Developer, team of 10}
+	      {C\#, ASP.NET Core, .NET MAUI, DynamoDB}
+	      \begin{itemize*}
+	      	\item Built the ASP.NET Core APIs and DynamoDB data model behind a .NET MAUI macOS app that tracks users' working activities, tasks, working time, and work logs for real-estate projects.
+	      	\item Built the back-end for offline mode: a batch sync API that accepts activities recorded offline in local storage and uploads them as soon as the connection returns.
+	      	\item Implemented APIs for status updates, search, filtering, and work history; fixed defects to improve stability and performance.
+	      \end{itemize*}
+
+	\item
+	      \headerrow
+	      {\textbf{Freelance}}
+	      {\textbf{Remote}}
+	      \headerrow
+	      {\emph{Full-Stack Developer}}
+	      {\emph{July 2024 -- January 2025}}
+
+	      \project
+	      {Restaurant Table Booking -- Telegram Bot \& Internal Booking System}
+	      {Full-Stack Developer}
+	      {Next.js, NestJS, n8n, Telegram Bot API}
+	      \begin{itemize*}
+	      	\item Built a Telegram booking bot with n8n that takes table reservations, checks availability through the back-end API, and confirms bookings automatically.
+	      	\item Built the internal booking management system, with a NestJS back-end and Next.js front-end, used by about 100 staff.
+	      \end{itemize*}
+
+	      \project
+	      {Stelio -- Homestay Booking Mobile App}
+	      {Full-Stack Developer, team of 4}
+	      {React Native, Redux, Python, Flask, Firebase, Google OAuth 2.0, OpenStreetMap}
+	      \begin{itemize*}
+	      	\item Built a cross-platform (iOS and Android) booking app in React Native with a Flask REST back-end, covering homestay search, room availability, booking, and booking history.
+	      	\item Implemented Google OAuth 2.0 alongside email sign-in, and encrypted sensitive user data with CRT-RSA, keeping the keys on the server so the app never stores them.
+	      	\item Designed a centralized Redux store for booking state, persisted with AsyncStorage so sessions survive app restarts.
+	      	\item Integrated OpenStreetMap into React Native for in-app geolocation and map-based homestay search, avoiding paid map APIs and the need for an external map app.
+	      	\item Implemented real-time GPS tracking on iOS and Android: handled location permissions on both platforms, kept the user's position updated live on the map, and plotted nearby homestays by distance.
+	      	\item Designed the full UI/UX in Figma, from wireframes to a high-fidelity prototype, and iterated on it with the client.
+	      \end{itemize*}
+
+	      \project
+	      {Car Sales Management -- Dealership Management System (under 50 internal users)}
+	      {Full-Stack Developer, team of 4}
+	      {C\#, .NET, WPF, MVVM, Command Pattern, SQL Server}
+	      \begin{itemize*}
+	      	\item Built a desktop management system for a car dealership covering vehicle inventory, sales transactions, customers, employees, and payroll.
+	      	\item Applied MVVM with the Command pattern to separate the UI from business logic, making screens easier to test and maintain.
+	      	\item Implemented attendance tracking with real-time status updates that feeds monthly payroll calculation.
+	      	\item Built an admin dashboard with sales and revenue reports, and role-based access for admin, sales, and accounting staff.
+	      	\item Encrypted employee and customer personal and account data with CRT-RSA.
+	      \end{itemize*}
+
+	      \project
+	      {Football Manager -- Football Pitch Rental Management (under 50 internal users)}
+	      {Back-end Developer, team of 4}
+	      {C\#, .NET, WPF, MVVM, SQL Server}
+	      \begin{itemize*}
+	      	\item Built most of the back-end for a football-pitch rental business, covering pitch booking and scheduling, customers, staff, and salary payment.
+	      	\item Implemented booking logic with time-slot conflict checks, so a pitch can never be double-booked.
+	      	\item Implemented employee attendance tracking with data persistence, and generated revenue and expense reports with Crystal Reports.
+	      	\item Applied MVVM to keep booking and payroll logic out of the UI layer, so business rules can be changed and debugged without touching the screens.
+	      \end{itemize*}
+
+	\item
+	      \headerrow
+	      {\textbf{VNPT}}
+	      {\textbf{Ho Chi Minh City}}
+	      \headerrow
+	      {\emph{Back-end Developer Intern (.NET)}}
+	      {\emph{April 2024 -- June 2024}}
+	      \begin{itemize*}
+	      	\item Implemented QR-code meeting join with automatic admission, removing the need for host approval.
+	      	\item Built QR-code login for the meeting platform.
+	      	\item Fixed a bug that prevented user avatars from rendering in the meeting diagram.
+	      \end{itemize*}
+
+\end{itemize}
+
+\hrule
+\vspace{-1em}
+\subsection*{\Large Projects}
+
+\begin{itemize}[leftmargin=1em]
+	\parskip=0.1em
+
+	\item
+	      \project
+	      {baoOS -- Gated, Artifact-driven AI-SDLC Workflow for Claude Code}
+	      {Creator \& maintainer}
+	      {Claude Code (slash commands, sub-agents, skills, hooks), Jira, GitLab, Shell, Node.js}
+	      \begin{itemize*}
+	      	\item Built an end-to-end Jira-to-merge-request pipeline: the AI agent picks up a Jira ticket, reviews the requirement, writes a plan, implements the code, and opens a merge request, which a human reviews before merging. It saves about \textbf{20\%} of development time per ticket, and the team uses it too.
+	      	\item Designed a 9-stage engineering workflow (onboard, knowledge, task, plan, implement, test, review, ship, learn) exposed as slash commands: one command per stage, one artifact per command, one explicit next step.
+	      	\item Orchestrated with shell-script gates and hooks that block each stage until its prerequisite artifact exists, so the AI cannot skip steps.
+	      	\item Built a per-project knowledge base (architecture, conventions, API, testing) that grounds the AI in decisions the codebase has already made, plus graded code review across security, performance, API, and data domains.
+	      	\item Used in production to cut the undocumented KOKEN migration (CakePHP to Laravel) from \textbf{6 months to 3}.
+	      \end{itemize*}
+
+\end{itemize}
+
+\hrule
+\vspace{-1em}
+\subsection*{\Large Skills}
+
+\hyphenpenalty=1000
+\begin{itemize}[leftmargin=1em,noitemsep]
+	\item \textbf{Languages:}
+	      C\#, JavaScript, TypeScript, Python, SQL, HTML/CSS
+	\item \textbf{Back-end:}
+	      ASP.NET Core 7/8/9, Entity Framework Core, Node.js, NestJS, Fastify, FastAPI, Flask, Laravel, RESTful APIs
+	\item \textbf{Front-end:}
+	      ReactJS, Next.js, Redux
+	\item \textbf{Mobile \& Desktop:}
+	      React Native, .NET MAUI, WPF, OpenStreetMap, GPS \& location services
+	\item \textbf{Databases:}
+	      SQL Server, PostgreSQL, MySQL, DynamoDB, Redis;
+	\item \textbf{Architecture:}
+	      3-layer Architecture, Microservices, Multi-tenancy, Repository Pattern, Dependency Injection, transactions \& locking, idempotency
+	\item \textbf{Payments \& Security:}
+	      Mollie (subscriptions, webhooks), IDOR prevention, ClamAV, MIME/file-signature validation, OAuth 2.0, JWT, RBAC, CRT-RSA encryption
+	\item \textbf{DevOps \& Cloud:}
+	      Docker, AWS (EC2, S3), CI/CD
+	\item \textbf{AI \& Automation:}
+	      Claude Code (sub-agents, skills, hooks, slash commands), multi-agent orchestration, AI-assisted SDLC, n8n
+	\item \textbf{Tools \& Process:}
+	      Git, GitHub, GitLab, Jira, Postman, Figma, Wireshark/tshark
+\end{itemize}
+
+\hrule
+\vspace{-1em}
+\subsection*{\Large Education}
+
+\begin{itemize}[leftmargin=1em]
+	\parskip=0.1em
+
+	\item
+	      \headerrow
+	      {\textbf{University of Information Technology (UIT) -- VNU-HCM}}
+	      {\textbf{Ho Chi Minh City}}
+	      \headerrow
+	      {\emph{Bachelor's Degree in Software Engineering}}
+	      {\emph{September 2020 -- November 2024}}
+
+\end{itemize}
+
+\hrule
+\vspace{-1em}
+\subsection*{\Large Certifications \& Awards}
+
+\begin{itemize}[leftmargin=1em,noitemsep]
+	\item \href{https://drive.google.com/file/d/1VGrxm2ipqFD5nNJjg3HcQzZ0lK2CK2j9/view}{\textbf{IELTS 5.5}}
+	\item Bronze Medal, April 30th Olympiad (2018, 2019)
+\end{itemize}
+
+\end{document}

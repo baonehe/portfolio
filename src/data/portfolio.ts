@@ -20,21 +20,21 @@ export const en = {
   meta: {
     title: `${site.name} — Full-Stack Developer`,
     description:
-      'Full-stack developer in Ho Chi Minh City building .NET, Node.js and Python back-ends, and an AI workflow that takes Jira tickets to merge requests.',
+      'Full-stack developer with 2+ years of experience, focused on back-end APIs, database performance and system migration. Based in Ho Chi Minh City.',
   },
   hero: {
     role: 'Full-Stack Developer',
     location: 'Ho Chi Minh City, Vietnam',
     intro:
-      'I build business applications end to end, with most of my work on the back-end: APIs, data models, payments and performance. I also built baoOS, an AI workflow that takes a Jira ticket to a merge request ready for review and saves about 20% of development time per ticket.',
+      '2+ years building business applications, with a focus on back-end APIs, database performance and system migration. I apply AI-DLC to automate development tasks, reducing the workload per ticket by about 20%.',
   },
   about: {
     heading: 'About',
-    lead: 'A full-stack developer, strongest on the back-end: correct data, safe payments, fast queries.',
+    lead: 'Full-stack delivery. A back-end focus.',
     body: [
-      'I studied Software Engineering at the University of Information Technology (VNU-HCM) and started with a back-end internship at VNPT, building QR-code login and QR-code meeting join for a meeting platform.',
-      'Since March 2025 I have worked at MOR Software, an IT outsourcing company, building products directly with clients in the EU and the Netherlands: a privacy-first professional network, a network-analysis platform, and a CakePHP-to-Laravel migration.',
-      'Before that I freelanced, building a Telegram booking bot with n8n, an internal booking system used by about 100 staff, and a homestay booking app for iOS and Android. Along the way I built baoOS, the AI workflow my team now uses to go from Jira ticket to merge request.',
+      'I’m a Software Engineering graduate from UIT, VNU-HCM, and a Full-Stack Developer at MOR Software since March 2025. My experience spans client projects, freelance work and a .NET internship at VNPT.',
+      'My work covers payment flows, slow database queries and legacy systems. I clarify business rules with clients, implement features across the stack and verify behavior before delivery.',
+      'I also built baoOS, an AI-assisted development workflow used by my team. It connects Jira tickets, implementation and merge requests, with explicit checks at each stage and human review before merging.',
     ],
     facts: [
       { label: 'Based in', value: 'Ho Chi Minh City, Vietnam' },
@@ -50,13 +50,12 @@ export const en = {
         company: 'MOR Software JSC',
         period: 'Mar 2025 — now',
         location: 'Ho Chi Minh City',
-        summary: 'IT outsourcing: five client projects, working directly with clients in the EU and the Netherlands.',
+        summary: 'Contributed to five client projects, including direct collaboration with European clients in English.',
         points: [
-          'MainDeck, a privacy-first professional network in the EU (1,900 users): Mollie subscription payments with idempotent webhooks, race-condition fixes with transactions and row locking, IDOR fixes, CRT-RSA encryption of user data, and PostgreSQL indexes that cut search and connection API response time by about 40%.',
-          'Modat, a network-analysis platform (Netherlands): a FastAPI back-end that parses captures of about 1 million packets with tshark in 2–3s instead of 15s, streams results in chunks, and caches them in Redis for about 80% faster repeat views.',
-          'KOKEN, a material management system for electronic components: migrated from CakePHP to Laravel on a 500GB MySQL database in 3 months instead of 6, verifying each module 1:1 against the legacy code.',
-          'LACO Group, a multi-tenant product traceability platform for Dong Thap Province: .NET microservices with web and mobile QR apps; heavy reports about 30% faster after moving their queries to stored procedures and raw SQL.',
-          'WorkLog, activity tracking for real-estate operations: ASP.NET Core APIs and a DynamoDB data model behind a .NET MAUI macOS app, including a batch sync API for offline mode.',
+          'MainDeck: implemented subscription payments and access checks; reduced search and connection API response time by about 40% through PostgreSQL tuning.',
+          'Modat: built a FastAPI back-end and reduced processing time for captures of around 1 million packets from 15s to 2–3s.',
+          'KOKEN: led the CakePHP-to-Laravel migration workflow for a system backed by a 500GB MySQL database; verified migrated modules against legacy behavior.',
+          'LACO Group and WorkLog: built .NET APIs for traceability and activity tracking, including report optimization and offline data synchronization.',
         ],
       },
       {
@@ -64,11 +63,11 @@ export const en = {
         company: 'Freelance',
         period: 'Jul 2024 — Jan 2025',
         location: 'Remote',
-        summary: 'Booking, sales and rental systems for small businesses, mostly in teams of four.',
+        summary: 'Built booking, sales and rental applications for small businesses, mostly in teams of four.',
         points: [
-          'Restaurant table booking: a Telegram bot built with n8n that checks availability and confirms reservations, plus an internal booking system (NestJS, Next.js) used by about 100 staff.',
-          'Stelio, a homestay booking app for iOS and Android (React Native, Flask): Google OAuth 2.0 sign-in, map search on OpenStreetMap, live GPS tracking, and the full UI designed in Figma.',
-          'Car Sales Management and Football Manager: WPF desktop systems (MVVM, SQL Server) for a car dealership and a football-pitch rental business, with role-based access, payroll, and bookings that can never double-book a pitch.',
+          'Built a Telegram booking bot and a Next.js/NestJS reservation system used by about 100 staff.',
+          'Developed Stelio, a React Native/Flask homestay booking app, with Google sign-in and map search; designed its UI in Figma.',
+          'Built WPF business applications with role-based access, payroll and booking-conflict checks.',
         ],
       },
       {
@@ -76,10 +75,10 @@ export const en = {
         company: 'VNPT',
         period: 'Apr 2024 — Jun 2024',
         location: 'Ho Chi Minh City',
-        summary: 'Back-end work on a meeting platform.',
+        summary: 'Contributed .NET back-end features and bug fixes to a meeting platform.',
         points: [
-          'Built QR-code login, and QR-code meeting join with automatic admission, so guests no longer need host approval.',
-          'Fixed a bug that kept user avatars from rendering in the meeting diagram.',
+          'Implemented QR-code sign-in and meeting admission to simplify the guest join flow.',
+          'Fixed user-avatar rendering in the meeting diagram.',
         ],
       },
     ],
@@ -87,11 +86,11 @@ export const en = {
   work: {
     heading: 'Selected work',
     intro:
-      'Three systems from client and personal work: payments and private data, heavy file analysis, and the AI workflow I use to build them.',
+      'Three examples of my work: reliable payments, faster network analysis and a repeatable AI-assisted development process.',
     labels: {
       problem: 'Problem',
-      solution: 'Solution',
-      decisions: 'Key decisions',
+      solution: 'My contribution',
+      decisions: 'Technical approach',
       outcome: 'Outcome',
       stack: 'Stack',
       illustration: 'Illustration, not a product screenshot',
@@ -103,15 +102,15 @@ export const en = {
         title: 'MainDeck',
         role: 'Full-Stack Developer · client-facing',
         summary:
-          'A privacy-first professional network hosted in the EU, an alternative to LinkedIn with about 1,900 users.',
+          'A professional network hosted in the EU, with about 1,900 users and a focus on privacy.',
         problem:
-          'Paid plans had to activate exactly once even when payment webhooks were retried, concurrent requests could charge twice or duplicate posts, some endpoints let users reach other people’s resources, and post search and connection queries needed to be faster.',
+          'Subscription payments needed reliable retry handling, concurrent requests could create duplicates, and search and connection APIs were slow.',
         solution:
-          'Built features end to end with Next.js and Fastify, and refactored the back-end into route, service and repository layers. Integrated Mollie subscriptions through webhooks, and scanned every upload with ClamAV before storage.',
+          'Built Next.js and Fastify features, integrated Mollie subscriptions and improved API access checks. Added ClamAV scanning for uploaded files.',
         decisions:
-          'Confirm each payment against the Mollie API and process webhooks with an idempotency key. Use database transactions and row locking against race conditions. Encrypt all personal and account data except names with CRT-RSA before it reaches the database, with the keys kept on the server.',
+          'Checked payment status with Mollie and used idempotency keys to handle retries. Applied transactions and row locking to concurrent writes; used EXPLAIN ANALYZE to guide PostgreSQL index changes.',
         outcome:
-          'Retried webhooks never activate a plan twice, and double charges and duplicate posts are gone. Composite indexes, found with EXPLAIN ANALYZE, cut post search and connection API response time by about 40%; removing redundant ones sped up writes.',
+          'Reduced search and connection API response time by about 40%. Fixed duplicate-processing issues in payment and post-creation flows.',
         stack: ['Next.js', 'TypeScript', 'Fastify', 'PostgreSQL', 'Mollie', 'ClamAV'],
         art: 'social',
         links: [{ label: 'Live site', href: 'https://maindeck.eu' }],
@@ -121,14 +120,14 @@ export const en = {
         title: 'Modat',
         role: 'Back-end Developer · client-facing',
         summary:
-          'A collaboration platform where about 300 users in 10 communities and 30 groups upload and analyze network capture files together.',
+          'A network-analysis platform for about 300 users to upload capture files and review results together.',
         problem:
-          'Capture files run to around 1 million packets. Parsing one took about 15 seconds, users waited for the whole file before seeing anything, and every member of a group waited again. Uploads also had to be screened for malicious files.',
+          'Parsing a capture of around 1 million packets took about 15 seconds. Users waited for the full result, and repeated views triggered more processing.',
         solution:
-          'A three-layer FastAPI back-end that embeds Wireshark’s tshark to parse captures and analyze FTP and UDP traffic, with uploads checked by MIME type and file signature before processing.',
+          'Built the FastAPI back-end and integrated tshark to parse captures and analyze FTP/UDP traffic. Checked upload types and file signatures before processing.',
         decisions:
-          'Stream results to the front-end in chunked HTTP responses, so data appears progressively. Cache processed results in Redis, so the rest of a group opens an analyzed file almost instantly.',
-        outcome: 'Processing time fell from 15s to 2–3s, and repeat views respond about 80% faster.',
+          'Streamed results in chunks so users could start reading sooner. Cached processed results in Redis so group members could reuse the same analysis.',
+        outcome: 'Reduced processing time from 15s to 2–3s for captures of around 1 million packets; repeat-view response time fell by about 80%.',
         stack: ['Python', 'FastAPI', 'tshark', 'PostgreSQL', 'Redis', 'Docker'],
         art: 'security',
         links: [{ label: 'Client website', href: 'https://www.modat.io' }],
@@ -137,15 +136,15 @@ export const en = {
         id: 'baoos',
         title: 'baoOS',
         role: 'Creator & maintainer',
-        summary: 'A gated, artifact-driven AI-SDLC workflow for Claude Code that takes a Jira ticket to a merge request.',
+        summary: 'An AI-assisted workflow that takes a Jira ticket through planning, implementation and review to a merge request.',
         problem:
-          'AI coding agents skip steps: they write code before the requirement is reviewed or a plan exists, and they ignore decisions the codebase has already made.',
+          'AI coding needs project context and a consistent process: requirements and plans should be reviewed before implementation begins.',
         solution:
-          'A pipeline in which the agent picks up a Jira ticket, reviews the requirement, writes a plan, implements the code and opens a merge request, which a person reviews before merging. Nine stages (onboard, knowledge, task, plan, implement, test, review, ship, learn), each a slash command with one artifact and one explicit next step.',
+          'Created a nine-stage workflow for Claude Code, with a saved output and a clear next step at each stage. The team uses it to prepare merge requests for human review.',
         decisions:
-          'Shell-script gates and hooks block each stage until its prerequisite artifact exists. A per-project knowledge base (architecture, conventions, API, testing) grounds the agent, and code review is graded across security, performance, API and data.',
+          'Used shell gates and hooks to check prerequisite outputs before advancing. Added a project knowledge base and review criteria for security, performance, APIs and data.',
         outcome:
-          'About 20% less development time per ticket, and the team uses it too. On the undocumented KOKEN migration it reverse-engineered the legacy code into a knowledge base before any new code was written, helping cut the timeline from 6 months to 3.',
+          'An estimated 20% reduction in development time per ticket. On KOKEN, the workflow helped document legacy behavior and supported a migration completed in 3 months versus the original 6-month timeline.',
         stack: ['Claude Code', 'Jira', 'GitLab', 'Shell', 'Node.js'],
         art: 'agents',
         links: [{ label: 'Repository', href: '#' }],
@@ -158,7 +157,7 @@ export const en = {
   archive: {
     title: 'All projects',
     intro:
-      'Every project from my résumé: client work at MOR Software, my own AI workflow, and freelance jobs. Three of them are written up as case studies on the home page.',
+      'Client, personal and freelance projects, grouped by context. Each entry describes my role, contribution and technologies; the three featured projects also have case studies.',
     back: 'Back to the home page',
     caseStudy: 'Read the case study',
     stack: 'Stack',
@@ -177,7 +176,7 @@ export const en = {
             points: [
               'Developed features end to end, with Next.js on the front-end and Fastify REST APIs on the back-end, working directly with the EU client.',
               'Refactored the back-end into route, service and repository layers, separating business logic from data access so modules are easier to test and change.',
-              'Integrated Mollie subscription payments through webhooks, confirming payment status against the Mollie API and processing each webhook with an idempotency key, so retried webhooks never activate a plan twice.',
+              'Integrated Mollie subscription payments through webhooks, confirming payment status against the Mollie API and processing each webhook with an idempotency key, to prevent duplicate plan activation on retries.',
               'Fixed race conditions in the subscription payment and post-creation flows with database transactions and row locking, preventing double charges and duplicate posts.',
               'Found and fixed IDOR vulnerabilities by enforcing resource-ownership checks on API endpoints; added ClamAV scanning so infected uploads are rejected before storage.',
               'Encrypted all personal and account data except names with CRT-RSA before it reaches the database, with the keys kept on the server, in line with the platform’s privacy-first promise.',
@@ -197,7 +196,7 @@ export const en = {
               'Embedded Wireshark (tshark) to parse capture files of around 1 million packets and analyze FTP and UDP traffic, cutting processing time from 15s to 2–3s.',
               'Streamed analysis results to the front-end through chunked HTTP responses, so users see data progressively instead of waiting for the whole file.',
               'Cached processed results in Redis, so other members of a group open an analyzed file almost instantly, cutting response time by about 80% on repeat views.',
-              'Validated uploads by MIME type and file signature to block malicious files before processing; worked directly with the Dutch client in English.',
+              'Validated upload formats by MIME type and file signature before processing; worked directly with the Dutch client in English.',
             ],
             stack: ['Python', 'FastAPI', 'Wireshark/tshark', 'PostgreSQL', 'Redis', 'Docker'],
             links: [{ label: 'Client website', href: 'https://www.modat.io' }],
@@ -257,11 +256,11 @@ export const en = {
             role: 'Creator & maintainer',
             summary: 'A gated, artifact-driven AI-SDLC workflow for Claude Code.',
             points: [
-              'Built an end-to-end Jira-to-merge-request pipeline: the agent picks up a Jira ticket, reviews the requirement, writes a plan, implements the code and opens a merge request, which a person reviews before merging. It saves about 20% of development time per ticket, and the team uses it too.',
+              'Built an end-to-end Jira-to-merge-request pipeline: the agent picks up a Jira ticket, reviews the requirement, writes a plan, implements the code and opens a merge request, which a person reviews before merging. It saves an estimated 20% of development time per ticket and is also used by the team.',
               'Designed a 9-stage workflow (onboard, knowledge, task, plan, implement, test, review, ship, learn) exposed as slash commands: one command per stage, one artifact per command, one explicit next step.',
-              'Orchestrated it with shell-script gates and hooks that block each stage until its prerequisite artifact exists, so the AI cannot skip steps.',
+              'Orchestrated it with shell-script gates and hooks that block each stage until its prerequisite artifact exists, to enforce the workflow prerequisites.',
               'Built a per-project knowledge base (architecture, conventions, API, testing) that grounds the AI in decisions the codebase has already made, plus graded code review across security, performance, API and data.',
-              'Used in production to cut the undocumented KOKEN migration (CakePHP to Laravel) from 6 months to 3.',
+              'Used it to document legacy behavior and support the KOKEN migration (CakePHP to Laravel), completed in 3 months versus the original 6-month timeline.',
             ],
             stack: ['Claude Code', 'Jira', 'GitLab', 'Shell', 'Node.js'],
             links: [],
@@ -323,7 +322,7 @@ export const en = {
             summary: 'Rental management for a football-pitch business, with under 50 internal users.',
             points: [
               'Built most of the back-end, covering pitch booking and scheduling, customers, staff and salary payment.',
-              'Implemented booking logic with time-slot conflict checks, so a pitch can never be double-booked.',
+              'Implemented booking logic with time-slot conflict checks, to prevent conflicting reservations for the same pitch.',
               'Implemented employee attendance tracking with data persistence, and generated revenue and expense reports with Crystal Reports.',
               'Applied MVVM to keep booking and payroll logic out of the UI layer, so business rules can be changed and debugged without touching the screens.',
             ],
@@ -337,8 +336,8 @@ export const en = {
   focus: {
     heading: 'Engineering focus',
     intro:
-      'Most of my work is on the back-end, in .NET, Node.js, Python and PHP; on the front-end I use React, Next.js and React Native. Each area below names the projects where it shows.',
-    evidenceLabel: 'Seen in',
+      'Back-end: .NET, Node.js, Python and PHP. Front-end and mobile: React, Next.js and React Native. The examples below connect each skill to project work.',
+    evidenceLabel: 'Applied in',
     // `icon` picks the pixel icon: 'api' | 'db' | 'test' | 'perf' | 'infra'.
     areas: [
       {
@@ -395,14 +394,14 @@ export const en = {
   },
   contact: {
     heading: "Let's talk.",
-    body: 'The best way to reach me is email. My code is on GitHub, and my work history on LinkedIn.',
+    body: 'For a Back-end or Full-Stack role, or a business application project, email me with the scope, your team and the expected timeline. You can also find my work on GitHub and LinkedIn.',
     emailLabel: 'Email',
     links: { github: 'GitHub', linkedin: 'LinkedIn', resume: 'Résumé (PDF)' },
   },
 
   // Interface text
   sections: {
-    about: { title: 'About', blurb: 'Who I am and where I’m headed.', part: 'the head' },
+    about: { title: 'About', blurb: 'My background and how I work.', part: 'the head' },
     experience: { title: 'Experience', blurb: 'Where I’ve worked and what I did there.', part: 'the legs' },
     projects: { title: 'Projects', blurb: 'Selected systems I’ve built.', part: 'the diamond pickaxe' },
     skills: { title: 'Skills', blurb: 'What I work with, and where it shows.', part: 'the body' },
@@ -413,7 +412,7 @@ export const en = {
     explore: 'Explore',
     viewProjects: 'View projects',
     sectionsLabel: 'Sections',
-    hint: 'Pick a part of the picture to jump to that section.',
+    hint: 'Use the menu or select a label in the scene to explore.',
     contents: 'Contents',
     moved: 'This section now lives on the main page.',
     langLabel: 'Language',
@@ -431,21 +430,21 @@ export const vi: typeof en = {
   meta: {
     title: `${site.name} — Lập trình viên Full-Stack`,
     description:
-      'Lập trình viên full-stack tại TP. Hồ Chí Minh, xây dựng back-end bằng .NET, Node.js và Python, cùng một quy trình AI đưa ticket Jira thành merge request.',
+      'Lập trình viên Full-Stack với hơn 2 năm kinh nghiệm, thế mạnh về API, hiệu năng cơ sở dữ liệu và chuyển đổi hệ thống. Làm việc tại TP. Hồ Chí Minh.',
   },
   hero: {
     role: 'Lập trình viên Full-Stack',
     location: 'TP. Hồ Chí Minh, Việt Nam',
     intro:
-      'Mình xây dựng ứng dụng doanh nghiệp từ đầu đến cuối, phần lớn ở back-end: API, mô hình dữ liệu, thanh toán và hiệu năng. Mình cũng tự xây baoOS, quy trình AI đưa một ticket Jira thành merge request sẵn sàng để review, giúp tiết kiệm khoảng 20% thời gian phát triển mỗi ticket.',
+      'Hơn 2 năm phát triển Full-Stack, thế mạnh ở back-end: xây dựng API, tối ưu cơ sở dữ liệu và chuyển đổi hệ thống. Mình ứng dụng AI-DLC để tự động hoá các bước phát triển phần mềm, giúp giảm khoảng 20% khối lượng công việc mỗi ticket.',
   },
   about: {
     heading: 'Giới thiệu',
-    lead: 'Lập trình viên full-stack, mạnh nhất ở back-end: dữ liệu đúng, thanh toán an toàn, truy vấn nhanh.',
+    lead: 'Phát triển Full-Stack, chuyên sâu ở back-end.',
     body: [
-      'Mình học Kỹ thuật Phần mềm tại Trường Đại học Công nghệ Thông tin (ĐHQG-HCM) và bắt đầu bằng kỳ thực tập back-end tại VNPT, làm tính năng đăng nhập bằng mã QR và tham gia cuộc họp bằng mã QR cho một nền tảng họp trực tuyến.',
-      'Từ tháng 3/2025, mình làm tại MOR Software, một công ty gia công phần mềm, xây dựng sản phẩm và làm việc trực tiếp với khách hàng ở châu Âu và Hà Lan: một mạng lưới nghề nghiệp đặt quyền riêng tư lên hàng đầu, một nền tảng phân tích mạng, và một dự án chuyển đổi từ CakePHP sang Laravel.',
-      'Trước đó mình làm freelance: bot đặt bàn trên Telegram xây bằng n8n, hệ thống đặt bàn nội bộ cho khoảng 100 nhân viên, và ứng dụng đặt homestay cho iOS và Android. Song song, mình xây dựng baoOS, quy trình AI mà đội mình hiện dùng để đi từ ticket Jira đến merge request.',
+      'Mình tốt nghiệp ngành Kỹ thuật Phần mềm tại UIT, ĐHQG-HCM và làm Full-Stack Developer tại MOR Software từ tháng 3/2025. Trước đó, mình làm freelance và thực tập .NET tại VNPT.',
+      'Công việc của mình tập trung vào luồng thanh toán, truy vấn chậm và hệ thống cũ cần chuyển đổi. Mình làm rõ nghiệp vụ với khách hàng, phát triển cả front-end lẫn back-end và đối chiếu kết quả trước khi bàn giao.',
+      'Mình cũng xây dựng baoOS, quy trình phát triển có AI hỗ trợ mà đội đang sử dụng. Công cụ kết nối ticket Jira với bước viết code và tạo merge request, có kiểm tra ở từng giai đoạn và người review trước khi merge.',
     ],
     facts: [
       { label: 'Sống tại', value: 'TP. Hồ Chí Minh, Việt Nam' },
@@ -461,13 +460,12 @@ export const vi: typeof en = {
         company: 'MOR Software JSC',
         period: 'Tháng 3/2025 — nay',
         location: 'TP. Hồ Chí Minh',
-        summary: 'Gia công phần mềm: năm dự án cho khách hàng, làm việc trực tiếp với khách hàng ở châu Âu và Hà Lan.',
+        summary: 'Tham gia năm dự án khách hàng, trong đó có các dự án làm việc trực tiếp bằng tiếng Anh với khách hàng châu Âu.',
         points: [
-          'MainDeck, mạng lưới nghề nghiệp đặt quyền riêng tư lên hàng đầu tại châu Âu (1.900 người dùng): thanh toán gói thuê bao qua Mollie với webhook idempotent, xử lý race condition bằng transaction và khoá dòng, vá lỗ hổng IDOR, mã hoá dữ liệu người dùng bằng CRT-RSA, và thêm index PostgreSQL giúp giảm khoảng 40% thời gian phản hồi của API tìm kiếm bài viết và kết nối.',
-          'Modat, nền tảng phân tích mạng (Hà Lan): back-end FastAPI dùng tshark phân tích file capture khoảng 1 triệu gói tin trong 2–3 giây thay vì 15 giây, trả kết quả theo từng phần, và cache trong Redis để lần xem lại nhanh hơn khoảng 80%.',
-          'KOKEN, hệ thống quản lý vật tư linh kiện điện tử: chuyển từ CakePHP sang Laravel trên cơ sở dữ liệu MySQL 500GB trong 3 tháng thay vì 6, đối chiếu từng module 1:1 với mã nguồn cũ.',
-          'LACO Group, nền tảng truy xuất nguồn gốc sản phẩm đa tenant cho tỉnh Đồng Tháp: microservices .NET cùng ứng dụng web và di động tạo và quét mã QR; báo cáo nặng nhanh hơn khoảng 30% sau khi chuyển truy vấn sang stored procedure và SQL thuần.',
-          'WorkLog, theo dõi công việc cho vận hành bất động sản: API ASP.NET Core và mô hình dữ liệu DynamoDB cho ứng dụng .NET MAUI trên macOS, gồm API đồng bộ hàng loạt cho chế độ offline.',
+          'MainDeck: tích hợp thanh toán thuê bao, bổ sung kiểm tra quyền truy cập; tối ưu PostgreSQL giúp giảm khoảng 40% thời gian phản hồi API tìm kiếm và kết nối.',
+          'Modat: xây dựng back-end FastAPI, giảm thời gian phân tích file khoảng 1 triệu gói tin từ 15 giây xuống 2–3 giây.',
+          'KOKEN: dẫn dắt quy trình chuyển đổi CakePHP sang Laravel cho hệ thống dùng MySQL 500GB; đối chiếu các module mới với hành vi của hệ thống cũ.',
+          'LACO Group và WorkLog: xây dựng API .NET cho truy xuất nguồn gốc và theo dõi công việc, gồm tối ưu báo cáo và đồng bộ dữ liệu offline.',
         ],
       },
       {
@@ -475,11 +473,11 @@ export const vi: typeof en = {
         company: 'Freelance',
         period: 'Tháng 7/2024 — Tháng 1/2025',
         location: 'Làm từ xa',
-        summary: 'Hệ thống đặt chỗ, bán hàng và cho thuê cho doanh nghiệp nhỏ, phần lớn trong nhóm bốn người.',
+        summary: 'Phát triển ứng dụng đặt chỗ, bán hàng và cho thuê cho doanh nghiệp nhỏ, phần lớn trong nhóm bốn người.',
         points: [
-          'Đặt bàn nhà hàng: bot Telegram xây bằng n8n kiểm tra bàn trống và tự xác nhận đặt chỗ, cùng hệ thống quản lý đặt bàn nội bộ (NestJS, Next.js) cho khoảng 100 nhân viên.',
-          'Stelio, ứng dụng đặt homestay cho iOS và Android (React Native, Flask): đăng nhập Google OAuth 2.0, tìm homestay trên bản đồ OpenStreetMap, theo dõi GPS thời gian thực, và toàn bộ giao diện thiết kế trên Figma.',
-          'Car Sales Management và Football Manager: phần mềm desktop WPF (MVVM, SQL Server) cho một đại lý ô tô và một dịch vụ cho thuê sân bóng, có phân quyền theo vai trò, tính lương, và đặt sân không bao giờ bị trùng giờ.',
+          'Xây dựng bot đặt bàn Telegram và hệ thống quản lý đặt chỗ bằng Next.js/NestJS cho khoảng 100 nhân viên.',
+          'Phát triển Stelio bằng React Native/Flask: đặt homestay, đăng nhập Google và tìm kiếm trên bản đồ; thiết kế giao diện bằng Figma.',
+          'Xây dựng ứng dụng quản lý bằng WPF, có phân quyền, tính lương và kiểm tra trùng lịch đặt chỗ.',
         ],
       },
       {
@@ -487,10 +485,10 @@ export const vi: typeof en = {
         company: 'VNPT',
         period: 'Tháng 4/2024 — Tháng 6/2024',
         location: 'TP. Hồ Chí Minh',
-        summary: 'Phát triển back-end cho một nền tảng họp trực tuyến.',
+        summary: 'Phát triển tính năng back-end .NET và sửa lỗi cho nền tảng họp trực tuyến.',
         points: [
-          'Làm tính năng đăng nhập bằng mã QR, và tham gia cuộc họp bằng mã QR với cơ chế tự động cho vào, không cần chủ phòng duyệt.',
-          'Sửa lỗi ảnh đại diện người dùng không hiển thị trong sơ đồ cuộc họp.',
+          'Phát triển đăng nhập và tham gia cuộc họp bằng mã QR, giúp đơn giản hoá thao tác cho khách tham dự.',
+          'Sửa lỗi hiển thị ảnh đại diện trong sơ đồ cuộc họp.',
         ],
       },
     ],
@@ -498,11 +496,11 @@ export const vi: typeof en = {
   work: {
     heading: 'Dự án tiêu biểu',
     intro:
-      'Ba hệ thống từ dự án khách hàng và dự án cá nhân: thanh toán và dữ liệu riêng tư, phân tích file dung lượng lớn, và quy trình AI mình dùng để làm ra chúng.',
+      'Ba dự án thể hiện thế mạnh của mình: xử lý thanh toán, tăng tốc phân tích dữ liệu mạng và xây dựng quy trình phát triển có AI hỗ trợ.',
     labels: {
       problem: 'Vấn đề',
-      solution: 'Giải pháp',
-      decisions: 'Quyết định kỹ thuật',
+      solution: 'Đóng góp của mình',
+      decisions: 'Cách triển khai',
       outcome: 'Kết quả',
       stack: 'Công nghệ',
       illustration: 'Hình minh hoạ, không phải ảnh chụp sản phẩm',
@@ -513,15 +511,15 @@ export const vi: typeof en = {
         title: 'MainDeck',
         role: 'Lập trình viên Full-Stack · làm việc trực tiếp với khách hàng',
         summary:
-          'Mạng lưới nghề nghiệp đặt quyền riêng tư lên hàng đầu, lưu trữ tại châu Âu, một lựa chọn thay thế LinkedIn với khoảng 1.900 người dùng.',
+          'Mạng lưới nghề nghiệp lưu trữ tại châu Âu, chú trọng quyền riêng tư, với khoảng 1.900 người dùng.',
         problem:
-          'Gói trả phí phải được kích hoạt đúng một lần kể cả khi webhook thanh toán bị gửi lại, các request đồng thời có thể gây trừ tiền hai lần hoặc tạo bài viết trùng, một số endpoint cho phép truy cập tài nguyên của người khác, và truy vấn tìm kiếm bài viết, kết nối cần nhanh hơn.',
+          'Luồng thanh toán cần xử lý đúng khi nhận lại thông báo; các yêu cầu đồng thời có thể tạo dữ liệu trùng. API tìm kiếm và kết nối còn phản hồi chậm.',
         solution:
-          'Phát triển tính năng từ đầu đến cuối với Next.js và Fastify, và tái cấu trúc back-end thành ba lớp route, service và repository. Tích hợp thanh toán thuê bao Mollie qua webhook, và quét mọi file tải lên bằng ClamAV trước khi lưu.',
+          'Phát triển tính năng bằng Next.js và Fastify, tích hợp thanh toán thuê bao Mollie và cải thiện kiểm tra quyền truy cập API. Bổ sung quét ClamAV cho file tải lên.',
         decisions:
-          'Xác nhận từng khoản thanh toán với API của Mollie và xử lý webhook bằng idempotency key. Dùng transaction và khoá dòng trong cơ sở dữ liệu để chặn race condition. Mã hoá toàn bộ dữ liệu cá nhân và tài khoản, trừ tên, bằng CRT-RSA trước khi lưu vào cơ sở dữ liệu, với khoá giữ trên server.',
+          'Xác nhận trạng thái thanh toán với Mollie, dùng idempotency key để xử lý thông báo gửi lại. Dùng transaction và khoá dòng cho thao tác ghi đồng thời; dựa vào EXPLAIN ANALYZE để điều chỉnh index PostgreSQL.',
         outcome:
-          'Webhook gửi lại không bao giờ kích hoạt gói hai lần, và không còn trừ tiền hai lần hay bài viết trùng. Index kết hợp, tìm ra nhờ EXPLAIN ANALYZE, giảm khoảng 40% thời gian phản hồi của API tìm kiếm bài viết và kết nối; bỏ các index thừa giúp ghi dữ liệu nhanh hơn.',
+          'Giảm khoảng 40% thời gian phản hồi API tìm kiếm và kết nối. Sửa lỗi xử lý trùng trong luồng thanh toán và tạo bài viết.',
         stack: ['Next.js', 'TypeScript', 'Fastify', 'PostgreSQL', 'Mollie', 'ClamAV'],
         art: 'social',
         links: [{ label: 'Trang web', href: 'https://maindeck.eu' }],
@@ -531,14 +529,14 @@ export const vi: typeof en = {
         title: 'Modat',
         role: 'Lập trình viên Back-end · làm việc trực tiếp với khách hàng',
         summary:
-          'Nền tảng cộng tác nơi khoảng 300 người dùng trong 10 cộng đồng và 30 nhóm cùng tải lên và phân tích file capture mạng.',
+          'Nền tảng phân tích mạng cho khoảng 300 người dùng cùng tải lên và xem kết quả từ các file ghi lại lưu lượng mạng.',
         problem:
-          'Mỗi file capture có khoảng 1 triệu gói tin. Phân tích một file mất khoảng 15 giây, người dùng phải chờ xong cả file mới thấy dữ liệu, và mỗi thành viên trong nhóm lại phải chờ thêm lần nữa. File tải lên cũng cần được sàng lọc mã độc.',
+          'Một file khoảng 1 triệu gói tin mất khoảng 15 giây để phân tích. Người dùng phải chờ toàn bộ kết quả, còn những lần xem lại lại phát sinh xử lý.',
         solution:
-          'Back-end FastAPI ba lớp, nhúng tshark của Wireshark để phân tích file capture và lưu lượng FTP, UDP; file tải lên được kiểm tra MIME type và chữ ký file trước khi xử lý.',
+          'Xây dựng back-end FastAPI, tích hợp tshark để phân tích file và lưu lượng FTP/UDP. Kiểm tra loại và chữ ký file tải lên trước khi xử lý.',
         decisions:
-          'Trả kết quả về front-end bằng HTTP chunked response để dữ liệu hiện dần. Cache kết quả đã xử lý trong Redis để các thành viên khác trong nhóm mở file đã phân tích gần như tức thì.',
-        outcome: 'Thời gian xử lý giảm từ 15 giây xuống 2–3 giây, và lần xem lại phản hồi nhanh hơn khoảng 80%.',
+          'Trả kết quả theo từng phần để người dùng đọc sớm hơn. Lưu kết quả vào Redis để các thành viên trong nhóm dùng lại cùng một lần phân tích.',
+        outcome: 'Giảm thời gian xử lý file khoảng 1 triệu gói tin từ 15 giây xuống 2–3 giây; thời gian phản hồi khi xem lại giảm khoảng 80%.',
         stack: ['Python', 'FastAPI', 'tshark', 'PostgreSQL', 'Redis', 'Docker'],
         art: 'security',
         links: [{ label: 'Trang của khách hàng', href: 'https://www.modat.io' }],
@@ -548,15 +546,15 @@ export const vi: typeof en = {
         title: 'baoOS',
         role: 'Tác giả & người duy trì',
         summary:
-          'Quy trình AI-SDLC cho Claude Code, có cổng kiểm soát và dựa trên artifact, đưa một ticket Jira thành merge request.',
+          'Quy trình dùng AI hỗ trợ đưa ticket Jira qua các bước lập kế hoạch, viết code và kiểm tra để tạo merge request.',
         problem:
-          'AI agent viết code hay bỏ bước: viết code trước khi yêu cầu được xem xét hay có kế hoạch, và bỏ qua những quyết định mà codebase đã đưa ra.',
+          'AI viết code cần hiểu ngữ cảnh dự án và làm theo quy trình: yêu cầu và kế hoạch cần được xem xét trước khi bắt đầu triển khai.',
         solution:
-          'Một pipeline trong đó agent nhận ticket Jira, xem xét yêu cầu, viết kế hoạch, viết code và mở merge request để người review trước khi merge. Chín giai đoạn (onboard, knowledge, task, plan, implement, test, review, ship, learn), mỗi giai đoạn là một slash command, tạo ra một artifact và chỉ rõ một bước tiếp theo.',
+          'Thiết kế quy trình chín giai đoạn cho Claude Code, mỗi bước lưu lại kết quả và chỉ rõ bước tiếp theo. Đội dùng công cụ để chuẩn bị merge request cho người review.',
         decisions:
-          'Cổng kiểm soát bằng shell script và hook chặn mỗi giai đoạn cho tới khi có artifact tiên quyết. Kho kiến thức riêng cho từng dự án (kiến trúc, quy ước, API, kiểm thử) giữ agent bám sát codebase, và code review được chấm điểm theo bảo mật, hiệu năng, API và dữ liệu.',
+          'Dùng shell script và hook kiểm tra đầu ra bắt buộc trước khi chuyển bước. Bổ sung kho kiến thức dự án và tiêu chí review về bảo mật, hiệu năng, API và dữ liệu.',
         outcome:
-          'Tiết kiệm khoảng 20% thời gian phát triển mỗi ticket, và cả đội cũng đang dùng. Với dự án KOKEN không có tài liệu, baoOS dịch ngược mã nguồn cũ thành kho kiến thức trước khi viết code mới, góp phần rút thời gian từ 6 tháng xuống 3.',
+          'Ước tính giảm khoảng 20% thời gian phát triển mỗi ticket. Với KOKEN, công cụ hỗ trợ tài liệu hoá nghiệp vụ cũ và góp phần hoàn thành chuyển đổi trong 3 tháng so với kế hoạch 6 tháng.',
         stack: ['Claude Code', 'Jira', 'GitLab', 'Shell', 'Node.js'],
         art: 'agents',
         links: [{ label: 'Mã nguồn', href: '#' }],
@@ -567,7 +565,7 @@ export const vi: typeof en = {
   archive: {
     title: 'Tất cả dự án',
     intro:
-      'Toàn bộ dự án trong CV của mình: dự án khách hàng tại MOR Software, quy trình AI do mình tự xây, và các dự án freelance. Ba dự án trong số đó có bài phân tích chi tiết ở trang chủ.',
+      'Các dự án khách hàng, cá nhân và freelance, gồm vai trò, đóng góp và công nghệ mình sử dụng. Ba dự án tiêu biểu có bài phân tích riêng trên trang chủ.',
     back: 'Quay lại trang chủ',
     caseStudy: 'Đọc bài phân tích',
     stack: 'Công nghệ',
@@ -586,7 +584,7 @@ export const vi: typeof en = {
             points: [
               'Phát triển tính năng từ đầu đến cuối, với Next.js ở front-end và REST API bằng Fastify ở back-end, làm việc trực tiếp với khách hàng châu Âu.',
               'Tái cấu trúc back-end thành ba lớp route, service và repository, tách logic nghiệp vụ khỏi truy cập dữ liệu để các module dễ kiểm thử và thay đổi hơn.',
-              'Tích hợp thanh toán gói thuê bao Mollie qua webhook, xác nhận trạng thái thanh toán với API của Mollie và xử lý mỗi webhook bằng idempotency key, để webhook gửi lại không bao giờ kích hoạt gói hai lần.',
+              'Tích hợp thanh toán gói thuê bao Mollie qua webhook, xác nhận trạng thái thanh toán với API của Mollie và xử lý mỗi webhook bằng idempotency key, để tránh kích hoạt gói trùng khi webhook gửi lại.',
               'Xử lý race condition trong luồng thanh toán thuê bao và luồng tạo bài viết bằng transaction và khoá dòng trong cơ sở dữ liệu, chặn việc trừ tiền hai lần và bài viết trùng.',
               'Phát hiện và vá lỗ hổng IDOR bằng cách kiểm tra quyền sở hữu tài nguyên ở các endpoint API; thêm quét ClamAV để file nhiễm mã độc bị từ chối trước khi lưu.',
               'Mã hoá toàn bộ dữ liệu cá nhân và tài khoản, trừ tên, bằng CRT-RSA trước khi lưu vào cơ sở dữ liệu, với khoá giữ trên server, đúng với cam kết đặt quyền riêng tư lên hàng đầu của nền tảng.',
@@ -606,7 +604,7 @@ export const vi: typeof en = {
               'Nhúng Wireshark (tshark) để phân tích file capture khoảng 1 triệu gói tin và lưu lượng FTP, UDP, giảm thời gian xử lý từ 15 giây xuống 2–3 giây.',
               'Trả kết quả phân tích về front-end bằng HTTP chunked response, để người dùng thấy dữ liệu hiện dần thay vì chờ xử lý xong cả file.',
               'Cache kết quả đã xử lý trong Redis, để các thành viên khác trong nhóm mở file đã phân tích gần như tức thì, giảm khoảng 80% thời gian phản hồi ở những lần xem lại.',
-              'Kiểm tra file tải lên theo MIME type và chữ ký file để chặn file độc hại trước khi xử lý; làm việc trực tiếp với khách hàng Hà Lan bằng tiếng Anh.',
+              'Kiểm tra định dạng file tải lên theo MIME type và chữ ký file trước khi xử lý; làm việc trực tiếp với khách hàng Hà Lan bằng tiếng Anh.',
             ],
             stack: ['Python', 'FastAPI', 'Wireshark/tshark', 'PostgreSQL', 'Redis', 'Docker'],
             links: [{ label: 'Trang của khách hàng', href: 'https://www.modat.io' }],
@@ -666,11 +664,11 @@ export const vi: typeof en = {
             role: 'Tác giả & người duy trì',
             summary: 'Quy trình AI-SDLC cho Claude Code, có cổng kiểm soát và dựa trên artifact.',
             points: [
-              'Xây dựng pipeline trọn vẹn từ Jira đến merge request: agent nhận ticket Jira, xem xét yêu cầu, viết kế hoạch, viết code và mở merge request để người review trước khi merge. Tiết kiệm khoảng 20% thời gian phát triển mỗi ticket, và cả đội cũng đang dùng.',
+              'Xây dựng pipeline trọn vẹn từ Jira đến merge request: agent nhận ticket Jira, xem xét yêu cầu, viết kế hoạch, viết code và mở merge request để người review trước khi merge. Ước tính tiết kiệm khoảng 20% thời gian phát triển mỗi ticket; đội cũng đang sử dụng.',
               'Thiết kế quy trình 9 giai đoạn (onboard, knowledge, task, plan, implement, test, review, ship, learn) dưới dạng slash command: mỗi giai đoạn một lệnh, mỗi lệnh một artifact, và một bước tiếp theo rõ ràng.',
-              'Điều phối bằng cổng kiểm soát viết bằng shell script và hook, chặn mỗi giai đoạn cho tới khi có artifact tiên quyết, để AI không thể bỏ bước.',
+              'Điều phối bằng cổng kiểm soát viết bằng shell script và hook, chặn mỗi giai đoạn cho tới khi có artifact tiên quyết, để kiểm soát thứ tự thực hiện các bước.',
               'Xây dựng kho kiến thức riêng cho từng dự án (kiến trúc, quy ước, API, kiểm thử) giữ AI bám sát những quyết định codebase đã đưa ra, cùng code review được chấm điểm theo bảo mật, hiệu năng, API và dữ liệu.',
-              'Dùng thực tế để rút dự án chuyển đổi KOKEN không có tài liệu (CakePHP sang Laravel) từ 6 tháng xuống 3.',
+              'Dùng công cụ để tài liệu hoá nghiệp vụ cũ và hỗ trợ chuyển đổi KOKEN (CakePHP sang Laravel), hoàn thành trong 3 tháng so với kế hoạch 6 tháng.',
             ],
             stack: ['Claude Code', 'Jira', 'GitLab', 'Shell', 'Node.js'],
             links: [],
@@ -732,7 +730,7 @@ export const vi: typeof en = {
             summary: 'Phần mềm quản lý cho thuê sân bóng, dưới 50 người dùng nội bộ.',
             points: [
               'Xây dựng phần lớn back-end, gồm đặt sân và xếp lịch, khách hàng, nhân viên và trả lương.',
-              'Làm logic đặt sân có kiểm tra trùng khung giờ, để một sân không bao giờ bị đặt hai lần.',
+              'Làm logic đặt sân có kiểm tra trùng khung giờ, để ngăn các lượt đặt cùng sân bị trùng giờ.',
               'Làm chấm công nhân viên có lưu trữ dữ liệu, và tạo báo cáo thu chi bằng Crystal Reports.',
               'Áp dụng MVVM để giữ logic đặt sân và tính lương ngoài lớp giao diện, để quy tắc nghiệp vụ có thể thay đổi và debug mà không đụng tới màn hình.',
             ],
@@ -746,8 +744,8 @@ export const vi: typeof en = {
   focus: {
     heading: 'Chuyên môn kỹ thuật',
     intro:
-      'Phần lớn công việc của mình ở back-end, với .NET, Node.js, Python và PHP; ở front-end mình dùng React, Next.js và React Native. Mỗi mảng bên dưới ghi rõ những dự án thể hiện nó.',
-    evidenceLabel: 'Thể hiện ở',
+      'Back-end: .NET, Node.js, Python và PHP. Front-end và di động: React, Next.js và React Native. Mỗi nhóm kỹ năng bên dưới đều gắn với dự án đã thực hiện.',
+    evidenceLabel: 'Áp dụng trong',
     areas: [
       {
         icon: 'api',
@@ -803,14 +801,14 @@ export const vi: typeof en = {
   },
   contact: {
     heading: 'Cùng trò chuyện.',
-    body: 'Cách tốt nhất để liên lạc với mình là qua email. Mã nguồn của mình ở GitHub, quá trình làm việc ở LinkedIn.',
+    body: 'Nếu bạn muốn trao đổi về vị trí Back-end, Full-Stack hoặc dự án ứng dụng doanh nghiệp, hãy gửi email kèm mô tả công việc, đội ngũ và thời gian dự kiến. Bạn cũng có thể xem thêm trên GitHub và LinkedIn.',
     emailLabel: 'Email',
     links: { github: 'GitHub', linkedin: 'LinkedIn', resume: 'CV (PDF)' },
   },
 
   // Interface text
   sections: {
-    about: { title: 'Giới thiệu', blurb: 'Mình là ai và đang hướng tới đâu.', part: 'cái đầu' },
+    about: { title: 'Giới thiệu', blurb: 'Nền tảng và cách mình làm việc.', part: 'cái đầu' },
     experience: { title: 'Kinh nghiệm', blurb: 'Những nơi mình đã làm và đã làm gì.', part: 'đôi chân' },
     projects: { title: 'Dự án', blurb: 'Những hệ thống mình đã xây dựng.', part: 'cây cuốc kim cương' },
     skills: { title: 'Kỹ năng', blurb: 'Mình làm được gì, và dự án nào chứng minh.', part: 'thân người' },
@@ -821,7 +819,7 @@ export const vi: typeof en = {
     explore: 'Khám phá',
     viewProjects: 'Xem dự án',
     sectionsLabel: 'Các mục',
-    hint: 'Chọn một phần của bức tranh để tới mục đó.',
+    hint: 'Chọn mục trên menu hoặc nhãn trong hình để xem nội dung.',
     contents: 'Mục lục',
     moved: 'Mục này giờ nằm trên trang chính.',
     langLabel: 'Ngôn ngữ',
