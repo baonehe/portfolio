@@ -1,0 +1,149 @@
+---
+import { copy, type Lang } from '../i18n/content';
+import { ph } from '../lib/ph';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].experience;
+---
+
+<div class="experience wrap">
+  <ol class="timeline">
+    {
+      t.items.map((item) => (
+        <li class="job">
+          <p class="job__period label" set:html={ph(item.period)} />
+          <div class="job__body">
+            <h2 class="job__role" set:html={ph(item.role)} />
+            <p class="job__where">
+              <span set:html={ph(item.company)} />
+              <span aria-hidden="true">·</span>
+              <span set:html={ph(item.location)} />
+            </p>
+            <p class="job__summary" set:html={ph(item.summary)} />
+            <ul class="job__points">
+              {item.points.map((point) => (
+                <li set:html={ph(point)} />
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .experience {
+    padding-bottom: var(--s-9);
+  }
+
+  /* A mine shaft running down the left: each role is one ore along it. */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: var(--s-2);
+    bottom: 0;
+    left: calc(25% + var(--s-7) / 2 - 2px);
+    width: 4px;
+    background: repeating-linear-gradient(var(--control) 0 8px, transparent 8px 12px);
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 25% 1fr;
+    column-gap: var(--s-7);
+    padding-bottom: var(--s-8);
+    position: relative;
+  }
+
+  .job::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: calc(25% + var(--s-7) / 2 - 8px);
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    box-shadow: inset -4px -4px 0 var(--accent-deep);
+  }
+
+  .job__period {
+    color: var(--muted);
+    padding-top: var(--s-1);
+    text-align: right;
+  }
+
+  .job__body {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 62ch;
+  }
+
+  .job__role {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 85%;
+    font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+    line-height: 1.05;
+  }
+
+  .job__where {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    font-weight: 500;
+  }
+
+  .job__summary {
+    color: var(--muted);
+  }
+
+  .job__points {
+    display: grid;
+    gap: var(--s-2);
+    margin-top: var(--s-2);
+  }
+
+  .job__points li {
+    position: relative;
+    padding-left: var(--s-5);
+  }
+
+  .job__points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-deep);
+  }
+
+  @media (max-width: 720px) {
+    .timeline::before {
+      left: 6px;
+    }
+    .job {
+      grid-template-columns: 1fr;
+      padding-left: var(--s-7);
+      row-gap: var(--s-2);
+    }
+    .job::before {
+      left: 0;
+    }
+    .job__period {
+      text-align: left;
+    }
+  }
+</style>

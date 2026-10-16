@@ -1,0 +1,47 @@
+---
+// One character, drawn from its sprite sheet as a CSS background so a frame
+// change is a single background-position update (see scene/animator.ts).
+import type { Character } from '../../scene/types';
+
+interface Props {
+  character: Character;
+  /** Placement in scene units. */
+  x: number;
+  y: number;
+  scene: { w: number; h: number };
+}
+
+const { character: c, x, y, scene } = Astro.props;
+const { image, columns, rows } = c.sheet;
+const pct = (v: number, of: number) => `${(v / of) * 100}%`;
+// Start on the idle pose; the same mapping as showFrame() in scene/animator.ts.
+const first = c.animations.idle.frames[0];
+const fx = columns > 1 ? ((first % columns) / (columns - 1)) * 100 : 0;
+const fy = rows > 1 ? (Math.floor(first / columns) / (rows - 1)) * 100 : 0;
+---
+
+<div
+  class="sprite"
+  data-sprite={c.id}
+  data-grid={JSON.stringify({ columns, rows })}
+  data-animations={JSON.stringify(c.animations)}
+  aria-hidden="true"
+  style={[
+    `left:${pct(x, scene.w)}`,
+    `top:${pct(y, scene.h)}`,
+    `width:${pct(c.size.w, scene.w)}`,
+    `height:${pct(c.size.h, scene.h)}`,
+    `background-image:url(${image.src})`,
+    `background-size:${columns * 100}% ${rows * 100}%`,
+    `background-position:${fx}% ${fy}%`,
+  ].join(';')}
+>
+</div>
+
+<style>
+  .sprite {
+    position: absolute;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+  }
+</style>

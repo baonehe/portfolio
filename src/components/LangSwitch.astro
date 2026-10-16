@@ -1,0 +1,46 @@
+---
+import { copy, href, paths, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+  section?: string;
+}
+
+const { lang, section } = Astro.props;
+---
+
+<nav class="lang" aria-label={copy[lang].ui.langLabel}>
+  {
+    (Object.keys(paths) as Lang[]).map((l) => (
+      <a class="pixel" href={href(l, section)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>
+        {l.toUpperCase()}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .lang {
+    display: flex;
+    border: 1px solid var(--control);
+    background: var(--bg);
+  }
+
+  .lang a {
+    display: grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 36px;
+    text-decoration: none;
+  }
+
+  .lang a[aria-current='page'] {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .lang a:not([aria-current]):hover {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+</style>

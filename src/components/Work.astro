@@ -1,0 +1,260 @@
+---
+import { copy, type Lang } from '../i18n/content';
+import { ph } from '../lib/ph';
+import { art, arrowOut } from '../sprites';
+import PixelArt from './PixelArt.astro';
+import PixelReveal from './PixelReveal.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].work;
+const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(--surface)' };
+---
+
+<div class="work">
+  <div class="wrap">
+    <p class="work__intro" set:html={ph(t.intro)} />
+
+    <ol class="projects">
+      {
+        t.projects.map((p, i) => (
+          <li class:list={['project', { 'project--flip': i % 2 === 1 }]} id={p.id}>
+            <figure class="project__art" style={`--ground:${grounds[p.art]}`}>
+              <PixelReveal cols={10} rows={7} class="project__frame">
+                <PixelArt sprite={art[p.art]} class="project__sprite" />
+              </PixelReveal>
+              <figcaption class="project__caption">{t.labels.illustration}</figcaption>
+            </figure>
+
+            <article class="project__body" aria-labelledby={`${p.id}-title`}>
+              <p class="project__meta">
+                <span class="pixel" set:html={ph(p.year)} />
+                <span class="label" set:html={ph(p.role)} />
+              </p>
+              <h2 id={`${p.id}-title`} class="display project__title" set:html={ph(p.title)} />
+              <p class="project__summary" set:html={ph(p.summary)} />
+
+              <dl class="project__facts">
+                <div>
+                  <dt class="label">{t.labels.problem}</dt>
+                  <dd set:html={ph(p.problem)} />
+                </div>
+                <div>
+                  <dt class="label">{t.labels.solution}</dt>
+                  <dd set:html={ph(p.solution)} />
+                </div>
+                <div>
+                  <dt class="label">{t.labels.decisions}</dt>
+                  <dd set:html={ph(p.decisions)} />
+                </div>
+                <div>
+                  <dt class="label">{t.labels.outcome}</dt>
+                  <dd set:html={ph(p.outcome)} />
+                </div>
+              </dl>
+
+              <div class="project__foot">
+                <ul class="tags" aria-label={t.labels.stack}>
+                  {p.stack.map((s) => (
+                    <li class="pixel" set:html={ph(s)} />
+                  ))}
+                </ul>
+                <ul class="project__links">
+                  {p.links.map((l) => (
+                    <li>
+                      <a href={l.href}>
+                        {l.label}
+                        <PixelArt sprite={arrowOut} class="link-icon" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</div>
+
+<style>
+  .work {
+    padding-bottom: var(--s-9);
+  }
+
+  .work__intro {
+    color: var(--muted);
+    max-width: 48ch;
+    margin-bottom: var(--s-9);
+  }
+
+  .projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s-10);
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-5);
+    align-items: start;
+  }
+
+  .project__art {
+    grid-column: 1 / span 7;
+    margin: 0;
+    display: grid;
+    gap: var(--s-3);
+    position: sticky;
+    top: 96px;
+  }
+
+  .project__body {
+    grid-column: 9 / span 4;
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .project--flip .project__art {
+    grid-column: 6 / span 7;
+    grid-row: 1;
+  }
+
+  .project--flip .project__body {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+  }
+
+  .project__art :global(.project__frame) {
+    --reveal-ground: var(--ground);
+    background: var(--ground);
+    aspect-ratio: 40 / 28;
+    overflow: hidden;
+  }
+
+  .project__art :global(.project__sprite) {
+    transition: transform 360ms steps(3);
+  }
+
+  .project:hover .project__art :global(.project__sprite) {
+    transform: translateY(-2.5%);
+  }
+
+  .project__caption {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .project__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-4);
+    color: var(--muted);
+  }
+
+  .project__title {
+    font-size: clamp(2.25rem, 3.6vw, 3.5rem);
+    margin-bottom: var(--s-1);
+  }
+
+  .project__summary {
+    font-size: 1.1875rem;
+    line-height: 1.45;
+    padding-bottom: var(--s-3);
+  }
+
+  .project__facts {
+    display: grid;
+    border-top: 1px solid var(--ink);
+  }
+
+  .project__facts > div {
+    display: grid;
+    gap: var(--s-1);
+    padding-block: var(--s-4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project__facts dt {
+    color: var(--muted);
+  }
+
+  .project__facts dd {
+    margin: 0;
+  }
+
+  .project__foot {
+    display: grid;
+    gap: var(--s-5);
+    padding-top: var(--s-3);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+
+  .tags li {
+    border: 1px solid var(--control);
+    padding: var(--s-1) var(--s-2);
+  }
+
+  .project__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-5);
+  }
+
+  .project__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    font-weight: 600;
+    color: var(--link);
+  }
+
+  .project__links a:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 960px) {
+    .project__art,
+    .project--flip .project__art {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      position: static;
+      margin-bottom: var(--s-6);
+    }
+    .project__body,
+    .project--flip .project__body {
+      grid-column: 1 / span 9;
+      grid-row: 2;
+    }
+    .projects {
+      gap: var(--s-9);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project__body,
+    .project--flip .project__body {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project__art :global(.project__sprite) {
+      transition: none;
+    }
+  }
+</style>

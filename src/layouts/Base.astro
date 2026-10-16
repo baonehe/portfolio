@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+import { copy, paths, site, type Lang } from '../i18n/content';
+import { plain } from '../lib/ph';
+
+interface Props {
+  lang: Lang;
+  /** Page name, prepended to the site title. */
+  title?: string;
+}
+
+const { lang, title } = Astro.props;
+const t = copy[lang];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ? `${title} — ${plain(site.name)}` : plain(t.meta.title)}</title>
+    <meta name="description" content={plain(t.meta.description)} />
+    <meta name="theme-color" content="#101418" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {
+      (Object.keys(paths) as Lang[]).map((l) => (
+        <link rel="alternate" hreflang={l} href={new URL(paths[l], Astro.site ?? Astro.url).href} />
+      ))
+    }
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+
+# local tool state
+.claude/settings.local.json
+.impeccable/hook.cache.json
+.impeccable/review/

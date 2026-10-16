@@ -1,0 +1,66 @@
+---
+// Wraps an illustration in a grid of cells that clear in a scattered order the
+// first time it scrolls into view. Without JS or with reduced motion, the
+// cells never render and the art is simply visible.
+interface Props {
+  cols?: number;
+  rows?: number;
+  class?: string;
+}
+
+const { cols = 10, rows = 7, class: className } = Astro.props;
+const count = cols * rows;
+// Deterministic shuffle so the build output is stable between runs.
+const delays = Array.from({ length: count }, (_, i) => ((i * 37 + 11) % count) / count);
+---
+
+<div class:list={['reveal', className]} style={`--cols:${cols};--rows:${rows}`}>
+  <slot />
+  <div class="reveal__cells" aria-hidden="true">
+    {delays.map((d) => <span style={`--d:${(d * 520).toFixed(0)}ms`} />)}
+  </div>
+</div>
+
+<style>
+  .reveal {
+    position: relative;
+  }
+  .reveal__cells {
+    display: none;
+  }
+  :global(.js) .reveal__cells {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    grid-template-rows: repeat(var(--rows), 1fr);
+    pointer-events: none;
+  }
+  .reveal__cells span {
+    background: var(--reveal-ground, var(--bg));
+    transition: opacity 0ms linear var(--d);
+  }
+  :global(.reveal.is-in) .reveal__cells span {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .reveal__cells {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const items = document.querySelectorAll<HTMLElement>('.reveal');
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.35 },
+  );
+  items.forEach((el) => io.observe(el));
+</script>

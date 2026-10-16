@@ -1,0 +1,288 @@
+---
+// The landing page: one large illustration that is also the navigation.
+// Picking a part zooms the camera onto it, then opens that section's page.
+import Base from '../layouts/Base.astro';
+import LangSwitch from './LangSwitch.astro';
+import PixelArt from './PixelArt.astro';
+import SceneView from './scene/SceneView.astro';
+import { copy, href, sectionOrder, site, type Lang, type SectionId } from '../i18n/content';
+import { ph, plain } from '../lib/ph';
+import { scene, sectionFrame } from '../scene';
+import { arrowOut } from '../sprites';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang];
+const links = Object.fromEntries(sectionOrder.map((id) => [id, href(lang, id)])) as Record<SectionId, string>;
+const labels = Object.fromEntries(sectionOrder.map((id) => [id, t.sections[id].title])) as Record<SectionId, string>;
+const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)]));
+---
+
+<Base lang={lang}>
+  <main
+    class="ov"
+    data-overview
+    data-frames={JSON.stringify(frames)}
+    data-scene-w={scene.size.w}
+    data-select={scene.camera.selectAnimation}
+    data-zoom-ms={scene.camera.zoomMs}
+  >
+    <header class="ov__top">
+      <div class="ov__id">
+        <h1 class="ov__name display" set:html={ph(site.name)} />
+        <p class="ov__role label">
+          <span>{t.hero.role}</span>
+          <span aria-hidden="true">/</span>
+          <span set:html={ph(t.hero.location)} />
+        </p>
+      </div>
+      <div class="ov__tools">
+        <ul class="ov__links">
+          <li><a href={site.links.github}>{t.contact.links.github}<PixelArt sprite={arrowOut} class="link-icon" /></a></li>
+          <li><a href={site.links.linkedin}>{t.contact.links.linkedin}<PixelArt sprite={arrowOut} class="link-icon" /></a></li>
+          <li><a href={`mailto:${plain(site.email)}`}>{t.contact.emailLabel}<PixelArt sprite={arrowOut} class="link-icon" /></a></li>
+        </ul>
+        <LangSwitch lang={lang} />
+      </div>
+    </header>
+
+    <nav class="ov__stage" aria-label={t.ui.sceneLabel}>
+      <SceneView links={links} labels={labels} class="ov__scene" data-camera="" />
+    </nav>
+
+    <footer class="ov__foot">
+      <p class="ov__hint">{t.ui.hint}</p>
+      <ul class="ov__index" aria-label={t.ui.explore}>
+        {
+          sectionOrder.map((id) => (
+            <li>
+              <a href={links[id]} data-section={id}>
+                {t.sections[id].title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </footer>
+
+    {site.draft && <p class="draft">{t.draftNotice}</p>}
+  </main>
+</Base>
+
+<style>
+  .ov {
+    position: relative;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  /* Header and footer float over the scene on wide screens. */
+  .ov__top,
+  .ov__foot {
+    position: relative;
+    z-index: 2;
+    padding: var(--s-5) var(--gutter);
+    transition: opacity 240ms ease-out;
+  }
+
+  .ov__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--s-5);
+  }
+
+  .ov__id {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .ov__name {
+    font-size: clamp(2.25rem, 4.6vw, 4.5rem);
+  }
+
+  .ov__role {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    color: var(--muted);
+  }
+
+  .ov__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+  }
+
+  .ov__links {
+    display: flex;
+    gap: var(--s-5);
+  }
+
+  .ov__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    font-weight: 500;
+  }
+
+  .ov__links a:hover {
+    color: var(--link);
+  }
+
+  .ov__links :global(.link-icon) {
+    width: 10px;
+  }
+
+  /* The scene fills the stage's height, centred; narrow screens crop the
+     floor's far ends. --u is px per scene unit. */
+  .ov__stage {
+    position: relative;
+    min-height: 0;
+    container-type: size;
+  }
+
+  .ov__stage :global(.ov__scene) {
+    --u: calc(100cqh / var(--sh));
+    top: 0;
+    left: calc(50% - var(--u) * var(--sw) / 2);
+    transform-origin: 0 0;
+  }
+
+  .ov__stage :global(.ov__scene.is-zooming) {
+    transition: transform var(--zoom-ms) cubic-bezier(0.65, 0, 0.25, 1);
+  }
+
+  .ov__foot {
+    display: grid;
+    justify-items: center;
+    gap: var(--s-3);
+  }
+
+  .ov__hint {
+    padding: var(--s-1) var(--s-3);
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+
+  /* On wide screens the labels do the job; the index is for narrow ones. */
+  .ov__index {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-2);
+  }
+
+  .ov__index a {
+    display: grid;
+    place-items: center;
+    min-height: 40px;
+    padding: 0 var(--s-3);
+    border: 1px solid var(--control);
+    background: var(--bg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .ov__index a:hover,
+  .ov__index a:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .draft {
+    position: absolute;
+    left: var(--s-4);
+    bottom: var(--s-4);
+    z-index: 3;
+    max-width: 260px;
+    padding: var(--s-2) var(--s-3);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .ov.is-leaving .ov__top,
+  .ov.is-leaving .ov__foot,
+  .ov.is-leaving :global(.hotspot__label),
+  .ov.is-leaving .draft {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  @media (min-width: 900px) {
+    .ov {
+      grid-template-rows: minmax(0, 1fr);
+    }
+    .ov__top,
+    .ov__foot {
+      position: absolute;
+      left: 0;
+      right: 0;
+    }
+    .ov__top {
+      top: 0;
+    }
+    .ov__foot {
+      bottom: 0;
+    }
+    .ov__stage {
+      grid-row: 1;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .ov :global(.hotspot__label) {
+      display: none;
+    }
+    .ov__index {
+      display: flex;
+    }
+    .ov__top {
+      flex-direction: column;
+    }
+    .ov__tools {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .draft {
+      position: static;
+      max-width: none;
+      margin: 0 var(--gutter) var(--s-4);
+      justify-self: stretch;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .ov__tools {
+      gap: var(--s-3);
+    }
+    .ov__links {
+      gap: var(--s-4);
+    }
+    .ov__links a {
+      font-size: 0.9375rem;
+    }
+  }
+</style>
+
+<script>
+  import { startMining } from '../scene/mining';
+  import { initOverview } from '../scene/navigator';
+
+  const root = document.querySelector<HTMLElement>('[data-overview]')!;
+  initOverview(root);
+  startMining(root.querySelector<HTMLElement>('[data-camera]')!);
+</script>

@@ -1,0 +1,10 @@
+---
+import SectionPage from '../components/SectionPage.astro';
+import { sectionOrder } from '../i18n/content';
+
+export const getStaticPaths = () => sectionOrder.map((section) => ({ params: { section } }));
+
+const { section } = Astro.params as { section: (typeof sectionOrder)[number] };
+---
+
+<SectionPage lang="en" id={section} />

@@ -1,0 +1,148 @@
+---
+import { copy, site, type Lang } from '../i18n/content';
+import { ph, plain } from '../lib/ph';
+import { arrowOut } from '../sprites';
+import PixelArt from './PixelArt.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].contact;
+const f = copy[lang].footer;
+const links = [
+  { href: site.links.github, label: t.links.github },
+  { href: site.links.linkedin, label: t.links.linkedin },
+  { href: site.links.resume, label: t.links.resume },
+];
+---
+
+<div class="contact">
+  <div class="wrap contact__inner">
+    <p class="display contact__title">{t.heading}</p>
+    <p class="contact__body" set:html={ph(t.body)} />
+
+    <a class="contact__email" href={`mailto:${plain(site.email)}`}>
+      <span class="visually-hidden">{t.emailLabel}: </span>
+      <span set:html={ph(site.email)} />
+    </a>
+
+    <ul class="contact__links">
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href}>
+              {l.label}
+              <PixelArt sprite={arrowOut} class="link-icon" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <footer class="footer">
+      <p>© {new Date().getFullYear()} <span set:html={ph(site.name)} /></p>
+      <p>{f.art} {f.built}</p>
+    </footer>
+  </div>
+</div>
+
+<style>
+  .contact {
+    background: var(--accent);
+    color: var(--on-accent);
+    position: relative;
+  }
+
+  .contact__inner {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-5);
+    padding-block: var(--s-9) var(--s-6);
+  }
+
+  .contact__title {
+    grid-column: 1 / -1;
+    font-size: clamp(4rem, 12vw, 11rem);
+    margin-left: -0.04em;
+  }
+
+  .contact__body {
+    grid-column: 1 / span 5;
+    margin-top: var(--s-6);
+    max-width: 40ch;
+  }
+
+  .contact__email {
+    grid-column: 1 / span 8;
+    margin-top: var(--s-7);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 85%;
+    font-size: clamp(1.75rem, 4.4vw, 3.75rem);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 0.16em;
+  }
+
+  .contact__email:hover {
+    color: var(--pop);
+  }
+
+  /* On the accent ground a highlighter band hurts legibility; underline instead. */
+  .contact :global(.ph) {
+    background: none;
+    box-shadow: inset 0 -0.14em var(--pop);
+  }
+
+  .contact__links {
+    grid-column: 10 / span 3;
+    align-self: end;
+    display: grid;
+    border-top: 2px solid var(--on-accent);
+  }
+
+  .contact__links a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 56px;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--on-accent) 40%, transparent);
+  }
+
+  .contact__links a:hover {
+    color: var(--pop);
+  }
+
+  .contact :global(:focus-visible) {
+    outline-color: var(--pop);
+  }
+
+  .footer {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-6);
+    margin-top: var(--s-10);
+    padding-top: var(--s-5);
+    border-top: 1px solid color-mix(in srgb, var(--on-accent) 40%, transparent);
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 960px) {
+    .contact__body,
+    .contact__email,
+    .contact__links {
+      grid-column: 1 / -1;
+    }
+    .contact__links {
+      margin-top: var(--s-7);
+      max-width: 420px;
+    }
+  }
+</style>

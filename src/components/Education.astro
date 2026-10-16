@@ -1,0 +1,134 @@
+---
+import { copy, type Lang } from '../i18n/content';
+import { ph } from '../lib/ph';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].education;
+---
+
+<div class="education wrap">
+  <ul class="degrees">
+    {
+      t.items.map((item) => (
+        <li class="degree">
+          <p class="degree__period label" set:html={ph(item.period)} />
+          <h2 class="degree__title" set:html={ph(item.degree)} />
+          <p class="degree__school" set:html={ph(item.school)} />
+          <p class="degree__notes" set:html={ph(item.notes)} />
+        </li>
+      ))
+    }
+  </ul>
+
+  <section class="certs" aria-labelledby="certs-heading">
+    <h2 id="certs-heading" class="certs__title label">{t.certsTitle}</h2>
+    <ul>
+      {
+        t.certs.map((cert) => (
+          <li class="cert">
+            <span class="cert__name" set:html={ph(cert.name)} />
+            <span class="cert__issuer" set:html={ph(cert.issuer)} />
+            <span class="cert__year pixel" set:html={ph(cert.year)} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</div>
+
+<style>
+  .education {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-5);
+    row-gap: var(--s-9);
+    padding-bottom: var(--s-9);
+  }
+
+  .degrees {
+    grid-column: 1 / span 8;
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .degree {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .degree__period {
+    color: var(--muted);
+  }
+
+  .degree__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 80%;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .degree__school {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .degree__notes {
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  .certs {
+    grid-column: 1 / span 8;
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .certs__title {
+    color: var(--muted);
+  }
+
+  .certs ul {
+    border-top: 1px solid var(--control);
+  }
+
+  .cert {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 12rem) auto;
+    gap: var(--s-5);
+    align-items: baseline;
+    padding-block: var(--s-4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cert__name {
+    font-weight: 600;
+  }
+
+  .cert__issuer,
+  .cert__year {
+    color: var(--muted);
+  }
+
+  @media (max-width: 960px) {
+    .degrees,
+    .certs {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cert {
+      grid-template-columns: 1fr auto;
+      row-gap: var(--s-1);
+    }
+    .cert__issuer {
+      grid-row: 2;
+    }
+  }
+</style>

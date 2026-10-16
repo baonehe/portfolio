@@ -1,0 +1,24 @@
+---
+import { palette, toRects, type Sprite } from '../sprites';
+
+interface Props {
+  sprite: Sprite;
+  label?: string;
+  class?: string;
+}
+
+const { sprite, label, class: className } = Astro.props;
+const rects = toRects(sprite);
+---
+
+<svg
+  class:list={['pixel-art', className]}
+  viewBox={`0 0 ${sprite.w} ${sprite.h}`}
+  shape-rendering="crispEdges"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  {rects.map(([x, y, w, h, c]) => <rect x={x} y={y} width={w} height={h} style={`fill:${palette[c]}`} />)}
+</svg>

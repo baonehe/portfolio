@@ -1,0 +1,408 @@
+---
+// Renders the active scene: floor, objects, characters and, when links are
+// given, one hotspot link per navigation target with its text label, plus the
+// data the idle mining loop needs. Size comes from the parent through --u
+// (px per scene unit).
+import type { SectionId } from '../../i18n/content';
+import { scene, targetRect } from '../../scene';
+import Sprite from './Sprite.astro';
+
+interface Props {
+  /** Section URLs; omit for a decorative render (e.g. a section backdrop). */
+  links?: Record<SectionId, string>;
+  /** Label text per section, shown beside hotspots on wide screens. */
+  labels?: Record<SectionId, string>;
+  class?: string;
+  [attr: `data-${string}`]: string;
+}
+
+const { links, labels, class: className, ...attrs } = Astro.props;
+const { w, h } = scene.size;
+const { floor } = scene.environment;
+const pct = (v: number, of: number) => `${(v / of) * 100}%`;
+const box = (x: number, y: number, bw: number, bh: number) =>
+  `left:${pct(x, w)};top:${pct(y, h)};width:${pct(bw, w)};height:${pct(bh, h)}`;
+// Night sky, generated from seeds so the build is stable. Stars cover three
+// scene widths, like the floor, so wide screens never see an edge.
+const sky = scene.environment.sky;
+function random(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const field = (count: number, seed: number) => {
+  const r = random(seed);
+  return Array.from({ length: count }, () => ({ x: -w + r() * w * 3, y: r() * (floor.y - 2), r }));
+};
+const between = (r: () => number, [lo, hi]: [number, number]) => Math.round(lo + r() * (hi - lo));
+const stars = sky
+  ? field(sky.stars.count, sky.stars.seed).map(({ x, y, r }) => ({
+      x,
+      y,
+      size: sky.stars.sizes[Math.floor(r() * sky.stars.sizes.length)],
+      color: sky.stars.colors[Math.floor(r() * sky.stars.colors.length)],
+      alpha: (0.45 + r() * 0.55).toFixed(2),
+      period: between(r, sky.stars.twinkleMs),
+      delay: -between(r, [0, sky.stars.twinkleMs[1]]),
+    }))
+  : [];
+const sparkles = sky
+  ? field(sky.sparkles.count, sky.sparkles.seed).map(({ x, y, r }) => ({
+      x,
+      y,
+      frame: Math.floor(r() * sky.sparkles.sheet.columns),
+      period: between(r, sky.sparkles.twinkleMs),
+      delay: -between(r, [0, sky.sparkles.twinkleMs[1]]),
+    }))
+  : [];
+// The scene is centred and cropped on narrow screens; pull the moon back in
+// from the right edge of the viewport there instead of cutting it off.
+const moonStyle =
+  sky &&
+  [
+    `left:min(${pct(sky.moon.x, w)}, calc(50% + 50vw - ${pct(sky.moon.size.w, w)} - 0.5rem))`,
+    `top:${pct(sky.moon.y, h)}`,
+    `width:${pct(sky.moon.size.w, w)}`,
+    `height:${pct(sky.moon.size.h, h)}`,
+  ].join(';');
+
+// Only the interactive render runs the idle loop.
+const ambient = links && scene.ambient;
+const mined = ambient && scene.objects.find((o) => o.object.id === ambient.object)!;
+const ambientData =
+  ambient && mined
+    ? JSON.stringify({
+        ...ambient,
+        stages: mined.object.breakable!.cracks.columns * mined.object.breakable!.cracks.rows - 1,
+        particles: mined.object.breakable!.particles,
+        rect: { x: mined.x, y: mined.y, w: mined.object.size.w, h: mined.object.size.h },
+      })
+    : undefined;
+---
+
+<div
+  class:list={['scene', { 'scene--live': links }, className]}
+  style={`--sw:${w};--sh:${h}`}
+  data-ambient={ambientData}
+  {...attrs}
+>
+  {
+    sky && (
+      <div class="scene__sky" aria-hidden="true">
+        {stars.map((st) => (
+          <span
+            class="star"
+            style={`${box(st.x, st.y, st.size, st.size)};background:${st.color};--a:${st.alpha};--t:${st.period}ms;--o:${st.delay}ms`}
+          />
+        ))}
+        {sparkles.map((sp) => (
+          <span
+            class="sparkle"
+            style={[
+              box(sp.x, sp.y, sky.sparkles.size, sky.sparkles.size),
+              `background-image:url(${sky.sparkles.sheet.image.src})`,
+              `background-size:${sky.sparkles.sheet.columns * 100}% 100%`,
+              `background-position:${(sp.frame / (sky.sparkles.sheet.columns - 1)) * 100}% 0`,
+              `--t:${sp.period}ms;--o:${sp.delay}ms;--steps:${sky.sparkles.sheet.columns - 1}`,
+            ].join(';')}
+          />
+        ))}
+        <img
+          class="moon"
+          src={sky.moon.image.src}
+          alt=""
+          style={moonStyle}
+        />
+      </div>
+    )
+  }
+
+  <div
+    class="scene__floor"
+    aria-hidden="true"
+    style={`top:${pct(floor.y, h)};background-image:url(${floor.image.src});--tile:${floor.tile}`}
+  >
+  </div>
+
+  {
+    scene.objects.map(({ object, x, y }) => {
+      const b = object.breakable;
+      return (
+        <div class="scene__object" data-object={object.id} style={box(x, y, object.size.w, object.size.h)}>
+          <img class="object__image" src={object.image.src} alt="" />
+          {b && (
+            <div
+              class="object__cracks"
+              data-grid={JSON.stringify({ columns: b.cracks.columns, rows: b.cracks.rows })}
+              data-animations={JSON.stringify({ idle: { frames: [0], duration: 1000, loop: true } })}
+              style={`background-image:url(${b.cracks.image.src});background-size:${b.cracks.columns * 100}% ${b.cracks.rows * 100}%`}
+            />
+          )}
+          {b && (
+            <img
+              class="object__drop"
+              src={b.drop.image.src}
+              alt=""
+              style={`width:${(b.drop.size.w / object.size.w) * 100}%;height:${(b.drop.size.h / object.size.h) * 100}%`}
+            />
+          )}
+        </div>
+      );
+    })
+  }
+
+  {scene.characters.map(({ character, x, y }) => <Sprite character={character} x={x} y={y} scene={scene.size} />)}
+
+  {ambient && <div class="scene__fx" aria-hidden="true" data-fx />}
+
+  {
+    links &&
+      scene.targets.map((t) => {
+        const r = targetRect(t);
+        const o = t.labelOffset ?? { x: 0, y: 0 };
+        return (
+          <a
+            class={`hotspot hotspot--${t.label}`}
+            href={links[t.section]}
+            data-section={t.section}
+            aria-label={labels?.[t.section] ?? t.section}
+            style={`${box(r.x, r.y, r.w, r.h)};--lx:${o.x};--ly:${o.y}`}
+          >
+            <span class="hotspot__label" aria-hidden="true">
+              <span class="hotspot__line" aria-hidden="true" />
+              <span class="hotspot__text">{labels?.[t.section] ?? t.section}</span>
+            </span>
+          </a>
+        );
+      })
+  }
+</div>
+
+<style>
+  .scene {
+    position: absolute;
+    width: calc(var(--u) * var(--sw));
+    height: calc(var(--u) * var(--sh));
+  }
+
+  .scene__sky {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .star,
+  .sparkle,
+  .moon {
+    position: absolute;
+    image-rendering: pixelated;
+  }
+
+  .star {
+    opacity: var(--a);
+  }
+
+  .sparkle {
+    background-repeat: no-repeat;
+  }
+
+  /* Twinkling runs only on the live overview, and never under reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .scene--live .star {
+      animation: twinkle var(--t) steps(3) var(--o) infinite;
+    }
+    .scene--live .sparkle {
+      animation: sparkle var(--t) steps(var(--steps), jump-none) var(--o) infinite alternate;
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: var(--a);
+    }
+    50% {
+      opacity: 0.12;
+    }
+  }
+
+  @keyframes sparkle {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 100% 0;
+    }
+  }
+
+  .scene__floor {
+    position: absolute;
+    left: -100%;
+    width: 300%;
+    height: 100%;
+    background-size: calc(var(--u) * var(--tile)) calc(var(--u) * var(--tile));
+    background-position: 0 0;
+    image-rendering: pixelated;
+  }
+
+  .scene__object {
+    position: absolute;
+  }
+
+  .object__image,
+  .object__cracks {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+
+  .object__cracks {
+    background-repeat: no-repeat;
+    background-position: 0 0;
+  }
+
+  /* Mining states, set by scene/mining.ts */
+  .scene__object:global(.is-hit) {
+    animation: hit 160ms steps(2);
+  }
+
+  .scene__object:global(.is-broken) .object__image,
+  .scene__object:global(.is-broken) .object__cracks {
+    visibility: hidden;
+  }
+
+  .scene__object:global(.is-respawning) .object__image {
+    animation: respawn 360ms steps(4) both;
+  }
+
+  .object__drop {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    translate: -50% 0;
+    image-rendering: pixelated;
+    visibility: hidden;
+  }
+
+  .scene__object:global(.is-broken) .object__drop {
+    visibility: visible;
+    animation: drop 900ms cubic-bezier(0.3, 0, 0.6, 1) both;
+  }
+
+  .scene__fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @keyframes hit {
+    50% {
+      translate: calc(var(--u) * 0.25) 0;
+    }
+  }
+
+  @keyframes respawn {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* pops up, falls and settles with two small bounces */
+  @keyframes drop {
+    0% {
+      transform: translateY(-50%) scale(0.6);
+    }
+    30% {
+      transform: translateY(-160%);
+    }
+    60% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(-40%);
+    }
+    88% {
+      transform: translateY(0);
+    }
+    94% {
+      transform: translateY(-12%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  /* Hotspots: invisible until hovered or focused, then pixel corner brackets. */
+  .hotspot {
+    --c: var(--accent);
+    --k: max(3px, calc(var(--u) * 0.25));
+    position: absolute;
+    z-index: 1;
+    text-decoration: none;
+  }
+
+  .hotspot:hover,
+  .hotspot:focus-visible {
+    outline: none;
+    background:
+      linear-gradient(var(--c), var(--c)) 0 0 / calc(var(--k) * 4) var(--k),
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--k) calc(var(--k) * 4),
+      linear-gradient(var(--c), var(--c)) 100% 0 / calc(var(--k) * 4) var(--k),
+      linear-gradient(var(--c), var(--c)) 100% 0 / var(--k) calc(var(--k) * 4),
+      linear-gradient(var(--c), var(--c)) 0 100% / calc(var(--k) * 4) var(--k),
+      linear-gradient(var(--c), var(--c)) 0 100% / var(--k) calc(var(--k) * 4),
+      linear-gradient(var(--c), var(--c)) 100% 100% / calc(var(--k) * 4) var(--k),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--k) calc(var(--k) * 4);
+    background-repeat: no-repeat;
+  }
+
+  .hotspot__label {
+    position: absolute;
+    top: calc(50% + var(--u) * var(--ly));
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    translate: 0 -50%;
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .hotspot--right .hotspot__label {
+    left: calc(100% + var(--u) * (0.5 + var(--lx)));
+  }
+
+  .hotspot--left .hotspot__label {
+    right: calc(100% + var(--u) * (0.5 - var(--lx)));
+    flex-direction: row-reverse;
+  }
+
+  .hotspot__line {
+    width: clamp(16px, 2.4vw, 40px);
+    height: 2px;
+    background: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 8px);
+  }
+
+  .hotspot__text {
+    padding: 4px 8px;
+    border: 1px solid var(--line-accent);
+    background: var(--bg);
+  }
+
+  .hotspot:hover .hotspot__text,
+  .hotspot:focus-visible .hotspot__text {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+</style>

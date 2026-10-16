@@ -1,0 +1,261 @@
+---
+// A section page. It opens on the same frame the overview's camera zoomed to,
+// then the content sheet rises over the illustration.
+import Base from '../layouts/Base.astro';
+import About from './About.astro';
+import Contact from './Contact.astro';
+import Education from './Education.astro';
+import Experience from './Experience.astro';
+import Focus from './Focus.astro';
+import LangSwitch from './LangSwitch.astro';
+import PixelArt from './PixelArt.astro';
+import SceneView from './scene/SceneView.astro';
+import Work from './Work.astro';
+import { copy, href, sectionOrder, site, type Lang, type SectionId } from '../i18n/content';
+import { sectionFrame } from '../scene';
+import { arrowDown } from '../sprites';
+
+interface Props {
+  lang: Lang;
+  id: SectionId;
+}
+
+const { lang, id } = Astro.props;
+const t = copy[lang];
+const section = t.sections[id];
+const next = sectionOrder[(sectionOrder.indexOf(id) + 1) % sectionOrder.length];
+const bodies = { about: About, experience: Experience, projects: Work, skills: Focus, education: Education, contact: Contact };
+const Body = bodies[id];
+const f = sectionFrame(id);
+---
+
+<Base lang={lang} title={section.title}>
+  <div class="backdrop" aria-hidden="true" style={`--fx:${f.x};--fy:${f.y};--fw:${f.w};--fh:${f.h}`}>
+    <SceneView class="backdrop__scene" />
+  </div>
+
+  <header class="bar">
+    <a class="bar__back" href={href(lang)} data-back={id}>
+      <PixelArt sprite={arrowDown} class="bar__icon" />
+      {t.ui.overview}
+    </a>
+    <LangSwitch lang={lang} section={id} />
+  </header>
+
+  <main class="sheet" id="main">
+    {site.draft && <p class="draft">{t.draftNotice}</p>}
+    <header class="sheet__head wrap">
+      <h1 class="display sheet__title">{section.title}</h1>
+      <p class="sheet__blurb">{section.blurb}</p>
+    </header>
+
+    <Body lang={lang} />
+
+    <nav class="sheet__next wrap" aria-label={t.ui.next}>
+      <a href={href(lang, next)}>
+        <span class="label">{t.ui.next}</span>
+        <span class="display sheet__next-title">{t.sections[next].title}</span>
+      </a>
+      <a class="sheet__overview" href={href(lang)} data-back={id}>{t.ui.overview}</a>
+    </nav>
+  </main>
+</Base>
+
+<style>
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: var(--bg);
+    animation: backdrop-up 760ms 120ms cubic-bezier(0.65, 0, 0.25, 1) both;
+  }
+
+  .backdrop {
+    transform-origin: 50% 0;
+  }
+
+  /* Opens on the frame the overview's camera zoomed to: the section's frame
+     covers the viewport, centred (same math as coverTransform in scene/camera.ts). */
+  .backdrop :global(.backdrop__scene) {
+    --u: max(100vw / var(--fw), 100svh / var(--fh));
+    left: calc(50vw - (var(--fx) + var(--fw) / 2) * var(--u));
+    top: calc(50svh - (var(--fy) + var(--fh) / 2) * var(--u));
+  }
+
+  .bar {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--s-4) var(--gutter);
+  }
+
+  .bar__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: 44px;
+    padding: 0 var(--s-4);
+    background: var(--bg);
+    border: 1px solid var(--control);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .bar__back:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .bar :global(.bar__icon) {
+    width: 12px;
+    rotate: 90deg;
+  }
+
+  .sheet {
+    position: relative;
+    z-index: 1;
+    margin-top: 58svh;
+    min-height: 42svh;
+    background: var(--bg);
+    animation: sheet-up 760ms 120ms cubic-bezier(0.65, 0, 0.25, 1) both;
+  }
+
+  /* Stepped top edge: the content rises out of the picture in blocks. */
+  .sheet::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 24px;
+    background:
+      repeating-linear-gradient(90deg, var(--bg) 0 48px, transparent 48px 96px) 0 0 / 100% 12px no-repeat,
+      linear-gradient(var(--bg), var(--bg)) 0 12px / 100% 12px no-repeat;
+  }
+
+  .draft {
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-align: center;
+    padding: var(--s-2) var(--gutter);
+  }
+
+  .sheet__head {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-8) var(--s-8);
+  }
+
+  .sheet__title {
+    font-size: clamp(3.5rem, 9vw, 8rem);
+  }
+
+  .sheet__blurb {
+    color: var(--muted);
+    font-size: clamp(1.125rem, 0.6vw + 1rem, 1.375rem);
+    max-width: 40ch;
+  }
+
+  .sheet__next {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--s-6);
+    padding-block: var(--s-8) var(--s-9);
+    border-top: 1px solid var(--line);
+  }
+
+  .sheet__next a:first-child {
+    display: grid;
+    gap: var(--s-2);
+    text-decoration: none;
+  }
+
+  .sheet__next .label {
+    color: var(--muted);
+  }
+
+  .sheet__next-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    transition: color 160ms ease-out;
+  }
+
+  .sheet__next a:first-child:hover .sheet__next-title {
+    color: var(--accent);
+  }
+
+  .sheet__overview {
+    font-weight: 600;
+    color: var(--link);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Leaving for the overview plays the arrival in reverse. */
+  :global(.is-leaving) .backdrop {
+    animation: backdrop-down 420ms cubic-bezier(0.65, 0, 0.25, 1) both;
+  }
+
+  :global(.is-leaving) .sheet {
+    animation: sheet-down 420ms cubic-bezier(0.65, 0, 0.25, 1) both;
+  }
+
+  /* Pull back until the part sits in the space above the sheet. */
+  @keyframes backdrop-up {
+    from {
+      scale: 1;
+    }
+    to {
+      scale: 0.55;
+    }
+  }
+
+  @keyframes sheet-up {
+    from {
+      translate: 0 42svh;
+    }
+    to {
+      translate: 0 0;
+    }
+  }
+
+  @keyframes backdrop-down {
+    from {
+      scale: 0.55;
+    }
+    to {
+      scale: 1;
+    }
+  }
+
+  @keyframes sheet-down {
+    to {
+      translate: 0 100svh;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .backdrop,
+    .sheet {
+      animation: none;
+    }
+    .backdrop {
+      scale: 0.55;
+    }
+  }
+</style>
+
+<script>
+  import { initSectionPage } from '../scene/navigator';
+
+  // matches the 420ms exit animation above
+  initSectionPage(380);
+</script>
