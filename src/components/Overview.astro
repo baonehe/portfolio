@@ -8,7 +8,7 @@ import SceneView from './scene/SceneView.astro';
 import { copy, href, sectionOrder, site, type Lang, type SectionId } from '../i18n/content';
 import { ph, plain } from '../lib/ph';
 import { scene, sectionFrame } from '../scene';
-import { arrowOut } from '../sprites';
+import { arrowDown, arrowOut } from '../sprites';
 
 interface Props {
   lang: Lang;
@@ -38,6 +38,11 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
           <span aria-hidden="true">/</span>
           <span set:html={ph(t.hero.location)} />
         </p>
+        <p class="ov__intro" set:html={ph(t.hero.intro)} />
+        <a class="ov__cta" href={links.projects} data-section="projects">
+          {t.ui.viewProjects}
+          <PixelArt sprite={arrowDown} class="ov__cta-icon" />
+        </a>
       </div>
       <div class="ov__tools">
         <ul class="ov__links">
@@ -79,6 +84,7 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     min-height: 560px;
     overflow: hidden;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr) auto;
   }
 
@@ -114,15 +120,48 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     color: var(--muted);
   }
 
+  .ov__intro {
+    max-width: 34ch;
+    margin-top: var(--s-2);
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .ov__cta {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: 48px;
+    margin-top: var(--s-2);
+    padding: 0 var(--s-5);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .ov__cta:hover {
+    background: var(--ink);
+  }
+
+  .ov__cta :global(.ov__cta-icon) {
+    width: 12px;
+    rotate: -90deg;
+  }
+
   .ov__tools {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--s-6);
+    gap: var(--s-2) var(--s-6);
   }
 
   .ov__links {
     display: flex;
-    gap: var(--s-5);
+    flex-wrap: wrap;
+    gap: 0 var(--s-5);
   }
 
   .ov__links a {
@@ -135,10 +174,6 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
 
   .ov__links a:hover {
     color: var(--link);
-  }
-
-  .ov__links :global(.link-icon) {
-    width: 10px;
   }
 
   /* The scene fills the stage's height, centred; narrow screens crop the
@@ -185,7 +220,7 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
   .ov__index a {
     display: grid;
     place-items: center;
-    min-height: 40px;
+    min-height: 44px;
     padding: 0 var(--s-3);
     border: 1px solid var(--control);
     background: var(--bg);
@@ -243,7 +278,14 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     }
   }
 
+  /* Narrow screens stack header, scene and menu and let the page scroll, so
+     short screens never clip anything. */
   @media (max-width: 899px) {
+    .ov {
+      height: auto;
+      min-height: 100svh;
+      grid-template-rows: auto minmax(clamp(240px, 46svh, 560px), 1fr) auto;
+    }
     .ov :global(.hotspot__label) {
       display: none;
     }

@@ -12,7 +12,14 @@ const { lang, section } = Astro.props;
 <nav class="lang" aria-label={copy[lang].ui.langLabel}>
   {
     (Object.keys(paths) as Lang[]).map((l) => (
-      <a class="pixel" href={href(l, section)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>
+      <a
+        class="pixel"
+        href={href(l, section)}
+        hreflang={l}
+        lang={l}
+        aria-current={l === lang ? 'page' : undefined}
+        data-direct={section ? '' : undefined}
+      >
         {l.toUpperCase()}
       </a>
     ))
@@ -30,7 +37,7 @@ const { lang, section } = Astro.props;
     display: grid;
     place-items: center;
     min-width: 44px;
-    min-height: 36px;
+    min-height: 44px;
     text-decoration: none;
   }
 

@@ -59,16 +59,19 @@ const sparkles = sky
       delay: -between(r, [0, sky.sparkles.twinkleMs[1]]),
     }))
   : [];
-// The scene is centred and cropped on narrow screens; pull the moon back in
-// from the right edge of the viewport there instead of cutting it off.
+// On the overview the scene is centred and cropped on narrow screens; pull
+// the moon back in from the viewport's right edge there instead of cutting it
+// off. Backdrops are framed on a section, so the moon keeps its place.
 const moonStyle =
   sky &&
-  [
-    `left:min(${pct(sky.moon.x, w)}, calc(50% + 50vw - ${pct(sky.moon.size.w, w)} - 0.5rem))`,
-    `top:${pct(sky.moon.y, h)}`,
-    `width:${pct(sky.moon.size.w, w)}`,
-    `height:${pct(sky.moon.size.h, h)}`,
-  ].join(';');
+  (links
+    ? [
+        `left:min(${pct(sky.moon.x, w)}, calc(50% + 50vw - ${pct(sky.moon.size.w, w)} - 0.5rem))`,
+        `top:${pct(sky.moon.y, h)}`,
+        `width:${pct(sky.moon.size.w, w)}`,
+        `height:${pct(sky.moon.size.h, h)}`,
+      ].join(';')
+    : box(sky.moon.x, sky.moon.y, sky.moon.size.w, sky.moon.size.h));
 
 // Only the interactive render runs the idle loop.
 const ambient = links && scene.ambient;

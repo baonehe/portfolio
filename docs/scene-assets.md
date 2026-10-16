@@ -92,7 +92,7 @@ export const miner: Character = {
   animations: {
     idle:   { frames: [0], duration: 1000, loop: true },          // required
     mine:   { frames: [1, 2, 3, 0], duration: [380, 90, 280, 220], loop: false },
-    select: { frames: [1, 2, 3, 0], duration: [90, 60, 160, 60], loop: false },
+    select: { frames: [1, 2, 3, 0], duration: [70, 50, 120, 40], loop: false },
   },
   hotspots: {                         // idle pose, in `size` units
     head: { x: 12, y: 12, w: 8, h: 8 },
@@ -135,7 +135,7 @@ sky: {
 - Twinkling is CSS only, runs only on the overview (section backdrops show a
   still sky), and stops under reduced motion. Keep the moon clear of the
   header and of hotspot labels; nudge it with `x` / `y`. On narrow screens,
-  where the scene is cropped, the moon is pulled in from the viewport's right
+  where the overview is cropped, the moon is pulled in from the viewport's right
   edge rather than cut off.
 
 ## Breakable objects
@@ -204,7 +204,7 @@ export const overview: Scene<SectionId> = {
     { section: 'education', on: { object: 'diamond-ore' }, label: 'right' },
     // one per section
   ],
-  camera: { pad: 0.45, zoomMs: 820, selectAnimation: 'select' },
+  camera: { pad: 0.45, zoomMs: 560, selectAnimation: 'select' },
   ambient: { /* see "Idle mining loop" */ },
 };
 ```

@@ -89,7 +89,7 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
   .work__intro {
     color: var(--muted);
     max-width: 48ch;
-    margin-bottom: var(--s-9);
+    margin-bottom: var(--s-7);
   }
 
   .projects {
@@ -107,8 +107,9 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
     align-items: start;
   }
 
+  /* The write-up gets the wider column; the illustration accents it. */
   .project__art {
-    grid-column: 1 / span 7;
+    grid-column: 1 / span 5;
     margin: 0;
     display: grid;
     gap: var(--s-3);
@@ -117,18 +118,18 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
   }
 
   .project__body {
-    grid-column: 9 / span 4;
+    grid-column: 7 / span 6;
     display: grid;
     gap: var(--s-4);
   }
 
   .project--flip .project__art {
-    grid-column: 6 / span 7;
+    grid-column: 8 / span 5;
     grid-row: 1;
   }
 
   .project--flip .project__body {
-    grid-column: 1 / span 4;
+    grid-column: 1 / span 6;
     grid-row: 1;
   }
 
@@ -227,18 +228,19 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
     color: var(--ink);
   }
 
+  /* Narrow screens: read first, illustration after. */
   @media (max-width: 960px) {
     .project__art,
     .project--flip .project__art {
-      grid-column: 1 / -1;
-      grid-row: 1;
+      grid-column: 1 / span 8;
+      grid-row: 2;
       position: static;
-      margin-bottom: var(--s-6);
+      margin-top: var(--s-6);
     }
     .project__body,
     .project--flip .project__body {
-      grid-column: 1 / span 9;
-      grid-row: 2;
+      grid-column: 1 / span 10;
+      grid-row: 1;
     }
     .projects {
       gap: var(--s-9);
@@ -246,6 +248,8 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
   }
 
   @media (max-width: 640px) {
+    .project__art,
+    .project--flip .project__art,
     .project__body,
     .project--flip .project__body {
       grid-column: 1 / -1;

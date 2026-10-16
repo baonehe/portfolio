@@ -164,6 +164,12 @@ a {
   image-rendering: pixelated;
 }
 
+/* The small arrow after outbound links. */
+.link-icon {
+  flex: none;
+  width: 10px;
+}
+
 /* Placeholder content: replaced once real copy arrives. */
 .ph {
   background: linear-gradient(transparent 58%, var(--ph) 58% 92%, transparent 92%);

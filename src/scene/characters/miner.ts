@@ -12,7 +12,7 @@ export const miner: Character = {
     // the slow swing of the idle loop
     mine: { frames: [1, 2, 3, 0], duration: [380, 90, 280, 220], loop: false },
     // the quick swing when a visitor picks a section
-    select: { frames: [1, 2, 3, 0], duration: [90, 60, 160, 60], loop: false },
+    select: { frames: [1, 2, 3, 0], duration: [70, 50, 120, 40], loop: false },
   },
   hotspots: {
     head: { x: 12, y: 12, w: 8, h: 8 },
