@@ -1,13 +1,12 @@
 ---
-// The landing page: one large illustration that is also the navigation.
-// Picking a part zooms the camera onto it, then opens that section's page.
-import Base from '../layouts/Base.astro';
-import LangSwitch from './LangSwitch.astro';
+// The top of the page: who this is, and one large illustration that doubles
+// as navigation. Picking a part plays a short swing, then scrolls to that
+// section (scene/navigator.ts).
 import PixelArt from './PixelArt.astro';
 import SceneView from './scene/SceneView.astro';
 import { copy, href, sectionOrder, site, type Lang, type SectionId } from '../i18n/content';
 import { ph, plain } from '../lib/ph';
-import { scene, sectionFrame } from '../scene';
+import { scene } from '../scene';
 import { arrowDown, arrowOut } from '../sprites';
 
 interface Props {
@@ -18,21 +17,18 @@ const { lang } = Astro.props;
 const t = copy[lang];
 const links = Object.fromEntries(sectionOrder.map((id) => [id, href(lang, id)])) as Record<SectionId, string>;
 const labels = Object.fromEntries(sectionOrder.map((id) => [id, t.sections[id].title])) as Record<SectionId, string>;
-const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)]));
+// Outbound links only once they point somewhere real.
+const outbound = [
+  { href: site.links.github, label: t.contact.links.github },
+  { href: site.links.linkedin, label: t.contact.links.linkedin },
+  { href: `mailto:${plain(site.email)}`, label: t.contact.emailLabel },
+].filter((l) => l.href !== '#');
 ---
 
-<Base lang={lang}>
-  <main
-    class="ov"
-    data-overview
-    data-frames={JSON.stringify(frames)}
-    data-scene-w={scene.size.w}
-    data-select={scene.camera.selectAnimation}
-    data-zoom-ms={scene.camera.zoomMs}
-  >
+<section class="ov" data-hero data-select={scene.selectAnimation} aria-labelledby="hero-name">
     <header class="ov__top">
       <div class="ov__id">
-        <h1 class="ov__name display" set:html={ph(site.name)} />
+        <h1 id="hero-name" class="ov__name display" set:html={ph(site.name)} />
         <p class="ov__role label">
           <span>{t.hero.role}</span>
           <span aria-hidden="true">/</span>
@@ -44,18 +40,22 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
           <PixelArt sprite={arrowDown} class="ov__cta-icon" />
         </a>
       </div>
-      <div class="ov__tools">
-        <ul class="ov__links">
-          <li><a href={site.links.github}>{t.contact.links.github}<PixelArt sprite={arrowOut} class="link-icon" /></a></li>
-          <li><a href={site.links.linkedin}>{t.contact.links.linkedin}<PixelArt sprite={arrowOut} class="link-icon" /></a></li>
-          <li><a href={`mailto:${plain(site.email)}`}>{t.contact.emailLabel}<PixelArt sprite={arrowOut} class="link-icon" /></a></li>
-        </ul>
-        <LangSwitch lang={lang} />
-      </div>
+      <ul class="ov__links">
+        {
+          outbound.map((l) => (
+            <li>
+              <a href={l.href}>
+                {l.label}
+                <PixelArt sprite={arrowOut} class="link-icon" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </header>
 
     <nav class="ov__stage" aria-label={t.ui.sceneLabel}>
-      <SceneView links={links} labels={labels} class="ov__scene" data-camera="" />
+      <SceneView links={links} labels={labels} class="ov__scene" data-scene="" />
     </nav>
 
     <footer class="ov__foot">
@@ -74,14 +74,14 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     </footer>
 
     {site.draft && <p class="draft">{t.draftNotice}</p>}
-  </main>
-</Base>
+</section>
 
 <style>
   .ov {
     position: relative;
     height: 100svh;
     min-height: 560px;
+    padding-top: var(--nav-total);
     overflow: hidden;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -151,13 +151,6 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     rotate: -90deg;
   }
 
-  .ov__tools {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-2) var(--s-6);
-  }
-
   .ov__links {
     display: flex;
     flex-wrap: wrap;
@@ -189,10 +182,6 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     top: 0;
     left: calc(50% - var(--u) * var(--sw) / 2);
     transform-origin: 0 0;
-  }
-
-  .ov__stage :global(.ov__scene.is-zooming) {
-    transition: transform var(--zoom-ms) cubic-bezier(0.65, 0, 0.25, 1);
   }
 
   .ov__foot {
@@ -249,26 +238,24 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     font-weight: 500;
   }
 
-  .ov.is-leaving .ov__top,
-  .ov.is-leaving .ov__foot,
-  .ov.is-leaving :global(.hotspot__label),
-  .ov.is-leaving .draft {
-    opacity: 0;
-    transition: opacity 200ms ease-out;
-  }
-
   @media (min-width: 900px) {
     .ov {
       grid-template-rows: minmax(0, 1fr);
     }
+    /* They span the scene: clicks between their contents reach the hotspots. */
     .ov__top,
     .ov__foot {
       position: absolute;
       left: 0;
       right: 0;
+      pointer-events: none;
+    }
+    .ov__top > *,
+    .ov__foot > * {
+      pointer-events: auto;
     }
     .ov__top {
-      top: 0;
+      top: var(--nav-total);
     }
     .ov__foot {
       bottom: 0;
@@ -284,7 +271,8 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     .ov {
       height: auto;
       min-height: 100svh;
-      grid-template-rows: auto minmax(clamp(240px, 46svh, 560px), 1fr) auto;
+      /* tall enough for 44px hotspots, short enough to reach the sections soon */
+      grid-template-rows: auto minmax(clamp(288px, 34svh, 560px), 1fr) auto;
     }
     .ov :global(.hotspot__label) {
       display: none;
@@ -295,10 +283,6 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
     .ov__top {
       flex-direction: column;
     }
-    .ov__tools {
-      width: 100%;
-      justify-content: space-between;
-    }
     .draft {
       position: static;
       max-width: none;
@@ -308,9 +292,6 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
   }
 
   @media (max-width: 420px) {
-    .ov__tools {
-      gap: var(--s-3);
-    }
     .ov__links {
       gap: var(--s-4);
     }
@@ -322,9 +303,9 @@ const frames = Object.fromEntries(sectionOrder.map((id) => [id, sectionFrame(id)
 
 <script>
   import { startMining } from '../scene/mining';
-  import { initOverview } from '../scene/navigator';
+  import { initScene } from '../scene/navigator';
 
-  const root = document.querySelector<HTMLElement>('[data-overview]')!;
-  initOverview(root);
-  startMining(root.querySelector<HTMLElement>('[data-camera]')!);
+  const root = document.querySelector<HTMLElement>('[data-hero]')!;
+  initScene(root);
+  startMining(root.querySelector<HTMLElement>('[data-scene]')!);
 </script>

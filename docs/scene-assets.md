@@ -1,6 +1,6 @@
 # Scene assets
 
-The overview page is one pixel-art scene. Its art is PNG files; its layout,
+The hero at the top of the page is one pixel-art scene. Its art is PNG files; its layout,
 animation and navigation come from typed manifests. This page explains how the
 pieces fit and how to add or replace them.
 
@@ -19,14 +19,13 @@ src/scene/                              manifests and logic
   characters/<id>.ts                    sheet grid, size, animations, hotspots
   environments/<id>.ts                  floor texture and its tile size / height
   objects/<id>.ts                       object image and size
-  scenes/<id>.ts                        placements, section targets, camera settings
+  scenes/<id>.ts                        placements, section targets, select animation
   index.ts                              picks the active scene, derives geometry
   validate.ts                           build-time checks (see below)
-  camera.ts                             framing math, shared by server and browser
   animator.ts                           plays sheet animations in the browser
   particles.ts                          pixel particle bursts (Web Animations, no frame loop)
   mining.ts                             the idle mining loop
-  navigator.ts                          clicks → animation → zoom → page; zoom back out
+  navigator.ts                          clicks → swing → scroll to section; menu state
 
 src/components/scene/
   SceneView.astro                       renders a scene (floor, objects, characters, hotspots)
@@ -35,8 +34,7 @@ src/components/scene/
 
 Each part does one job and talks to the others through data only: the
 renderer never decides timing, the animator never knows which character it is
-playing, the camera is pure math, and the navigator only reads data
-attributes written by the renderer.
+playing, and the navigator only reads data attributes written by the renderer.
 
 ## Units
 
@@ -103,8 +101,9 @@ export const miner: Character = {
 
 - `idle` is required: it is the resting frame and what one-shot animations return to.
 - `duration` is one number for every frame, or one number per frame.
-- One-shot animations (`loop: false`) are what the navigator waits on before
-  zooming; the scene names which one in `camera.selectAnimation`.
+- One-shot animations (`loop: false`) can be played on select; the scene names
+  which one in `selectAnimation`. The page starts scrolling about 200ms in, so
+  keep it short.
 - Under reduced motion the animator shows the idle frame and skips playback.
 - Hotspots describe the idle pose. Keep the head, body and legs in place across
   frames; the `tool` hotspot covers where the pickaxe rests and swings.
@@ -132,10 +131,10 @@ sky: {
 - **Moon**: any PNG; include a halo in the image itself if you want one (the
   current one is a white crescent with a 2 px translucent cyan halo following its
   outline).
-- Twinkling is CSS only, runs only on the overview (section backdrops show a
-  still sky), and stops under reduced motion. Keep the moon clear of the
+- Twinkling is CSS only, runs only on the interactive render, pauses with the
+  idle loop, and stops under reduced motion. Keep the moon clear of the
   header and of hotspot labels; nudge it with `x` / `y`. On narrow screens,
-  where the overview is cropped, the moon is pulled in from the viewport's right
+  where the scene is cropped, the moon is pulled in from the viewport's right
   edge rather than cut off.
 
 ## Breakable objects
@@ -183,8 +182,9 @@ comes only from the animation's durations and these two rests, so a new sheet
 keeps the same rhythm as long as its manifest does.
 
 The loop pauses while a visitor points at or focuses a hotspot, while the tab
-is hidden, and for good once a section is being opened; it never starts under
-reduced motion. Remove `ambient` to turn it off.
+is hidden, while the scene is scrolled out of view, and while a select swing
+plays; it never starts under reduced motion. While paused the scene carries
+`is-still`, which also pauses the sky. Remove `ambient` to turn it off.
 
 ## Scene manifest
 
@@ -204,7 +204,7 @@ export const overview: Scene<SectionId> = {
     { section: 'education', on: { object: 'diamond-ore' }, label: 'right' },
     // one per section
   ],
-  camera: { pad: 0.45, zoomMs: 560, selectAnimation: 'select' },
+  selectAnimation: 'select',
   ambient: { /* see "Idle mining loop" */ },
 };
 ```
@@ -213,9 +213,6 @@ export const overview: Scene<SectionId> = {
   hotspot or a whole object.
 - `label` puts the visible text label left or right of the hotspot on wide
   screens; `labelOffset` nudges it (scene units) when it would cover the art.
-- `camera.pad` is how much room the zoom leaves around a target. The overview
-  zoom and the section page's backdrop both use `sectionFrame()`, so they
-  always frame the same view.
 
 ## Build-time checks
 
@@ -251,7 +248,7 @@ timing are in scene units and milliseconds.
 
 **Add an animation state.** Add frames to the sheet, update `columns` / `rows`,
 then add an entry to `animations`. To play it on select, set
-`camera.selectAnimation` to its name.
+`selectAnimation` to its name.
 
 **Use a different character.** Add `src/assets/scene/characters/<id>/<id>.sheet.png`
 and `src/scene/characters/<id>.ts` with the same hotspot names the scene's
@@ -265,5 +262,5 @@ target at it with `on: { object: '<id>' }` if it should open a section.
 its size in scene units, and `y` at the row the characters stand on.
 
 **Add a section.** Add it to `sectionOrder` in `src/i18n/content.ts` and its
-text in `src/data/portfolio.ts`, add a body component in `SectionPage.astro`, then give it
+text in `src/data/portfolio.ts`, add a body component in `Home.astro`, then give it
 a target in the scene. The build fails until every section has exactly one target.

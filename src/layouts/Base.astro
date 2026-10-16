@@ -27,6 +27,7 @@ const t = copy[lang];
         <link rel="alternate" hreflang={l} href={new URL(paths[l], Astro.site ?? Astro.url).href} />
       ))
     }
+    <slot name="head" />
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>

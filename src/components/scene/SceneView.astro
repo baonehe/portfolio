@@ -8,7 +8,7 @@ import { scene, targetRect } from '../../scene';
 import Sprite from './Sprite.astro';
 
 interface Props {
-  /** Section URLs; omit for a decorative render (e.g. a section backdrop). */
+  /** Section URLs; omit for a still, decorative render. */
   links?: Record<SectionId, string>;
   /** Label text per section, shown beside hotspots on wide screens. */
   labels?: Record<SectionId, string>;
@@ -61,7 +61,7 @@ const sparkles = sky
   : [];
 // On the overview the scene is centred and cropped on narrow screens; pull
 // the moon back in from the viewport's right edge there instead of cutting it
-// off. Backdrops are framed on a section, so the moon keeps its place.
+// off. A decorative render keeps the moon in place.
 const moonStyle =
   sky &&
   (links
@@ -221,6 +221,12 @@ const ambientData =
     .scene--live .sparkle {
       animation: sparkle var(--t) steps(var(--steps), jump-none) var(--o) infinite alternate;
     }
+  }
+
+  /* Paused with the idle loop (hover, focus, hidden tab, scrolled away). */
+  .scene--live:global(.is-still) .star,
+  .scene--live:global(.is-still) .sparkle {
+    animation-play-state: paused;
   }
 
   @keyframes twinkle {

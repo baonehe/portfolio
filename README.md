@@ -1,8 +1,9 @@
 # Portfolio
 
-My personal developer portfolio, in English and Vietnamese. It opens on one
-pixel-art scene: a miner with a diamond pickaxe. Click a part of the picture
-(head, pickaxe, body, legs, sign, ore block) to open that section.
+My personal developer portfolio, in English and Vietnamese, on one scrolling
+page. It opens on a pixel-art scene: a miner with a diamond pickaxe. Click a
+part of the picture (head, pickaxe, body, legs, sign, ore block), or use the
+menu, to jump to that section.
 
 Built with [Astro](https://astro.build). All pixel art is original.
 
@@ -27,7 +28,7 @@ placeholder content; set `draft: false` there once it is all replaced.
 ```
 src/data/portfolio.ts   site text (EN + VI)
 src/components/         page sections and the scene view
-src/scene/              scene manifests, renderer, camera, animations
+src/scene/              scene manifests, renderer, animations, navigation
 src/assets/scene/       pixel art (PNG)
 docs/scene-assets.md    how to change the scene and its art
 ```

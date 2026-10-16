@@ -38,7 +38,7 @@ const t = copy[lang].about;
 
 <style>
   .about {
-    padding-bottom: var(--s-10);
+    padding-bottom: var(--s-8);
   }
 
   .about__grid {
@@ -107,6 +107,9 @@ const t = copy[lang].about;
   }
 
   @media (max-width: 560px) {
+    .about__grid {
+      row-gap: var(--s-6);
+    }
     .about__aside {
       grid-column: 1 / -1;
     }

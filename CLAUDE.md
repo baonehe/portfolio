@@ -2,7 +2,9 @@
 
 A bilingual (EN/VI) personal portfolio for a backend engineer. Style:
 **Modern Pixel Editorial**, an editorial web layout with original pixel art as the
-accent. The overview page is a pixel scene that doubles as the navigation.
+accent. It is one continuous page: a hero with a pixel scene that doubles as
+navigation, then every section in reading order under a fixed menu. See
+`docs/one-page-scroll-proposal.md` for the reasoning.
 
 It is a portfolio, not a game: no gameplay, movement, maps, quests or scores.
 
@@ -29,9 +31,9 @@ host-agnostic.
 |---|---|
 | `src/data/portfolio.ts` | **All site text**, EN and VI, plus name/email/links and the `draft` flag |
 | `src/i18n/content.ts` | Languages, section order, URLs, content types (no text) |
-| `src/pages/` | `/`, `/[section]/`, and the same under `/vi/` |
-| `src/components/` | Overview, section page shell, one component per section |
-| `src/scene/` | Scene manifests (characters, objects, environment, overview) and the renderer/animator/camera/navigator modules |
+| `src/pages/` | `/` and `/vi/` (the page); `/[section]/` and `/vi/[section]/` only redirect old links to `/#section` |
+| `src/components/` | `Home` (page shell), `SiteNav` (fixed menu), `Hero` (scene), one component per section, `Moved` (redirect page) |
+| `src/scene/` | Scene manifests (characters, objects, environment, overview) and the renderer/animator/navigator modules |
 | `src/assets/scene/` | Scene art as PNG |
 | `src/sprites/` | Small UI pixel art (icons, project illustrations) drawn on grids, rendered as SVG |
 | `src/styles/global.css` | Design tokens, fonts, base styles |
@@ -48,25 +50,36 @@ host-agnostic.
   in brackets.
 - Project art is illustration, never passed off as a product screenshot.
 
+## The page
+
+- Section order (`sectionOrder` in `src/i18n/content.ts`): About, Projects,
+  Experience, Skills, Education, Contact. Projects comes early on purpose.
+- Each section is `<section id="<id>">` with English ids in both languages
+  (`/#projects`, `/vi/#projects`), so any section can be linked directly.
+- The fixed menu lists all six sections in page order and marks the one being
+  read (inverted, plus `aria-current`). From 1024px it is one row; narrower
+  screens use a "Contents" disclosure (Escape closes it), and without
+  JavaScript a scrollable row. The language switch keeps the current section.
+- Menu, CTA and scene clicks add a history entry (Back returns); scrolling by
+  hand does not. After a jump, focus moves to the section heading.
+- Old `/<section>/` URLs are static meta-refresh pages to `/#<section>`, so the
+  build stays host-agnostic.
+- Outbound links (GitHub, LinkedIn, CV, project links) render only once their
+  `href` is real, not `'#'`.
+
 ## The scene
 
 - Parts → sections: head → About, pickaxe → Projects, body → Skills,
   legs → Experience, wooden sign → Contact, ore block → Education.
 - Every part has a visible text label (beside the part on wide screens, a list
   of links on narrow ones). Nothing depends on finding hotspots.
-- Picking a part on the overview: the miner swings, the camera zooms onto the
-  part, and the section page opens on that frame with its content rising over
-  it. Keep that whole sequence short (about a second). Back or "Overview"
-  zooms out.
-- On a section page the content should reach the top of the screen quickly:
-  the page title and the start of the first item belong on the first screen.
-  The backdrop is a cue for where you are, not a hero.
-- Moving between sections from a section page is direct (a compact section
-  menu with the current one marked), with no zoom.
-- Perpetual animation is limited to the overview: the idle mining loop (ore
+- Picking a part: the miner swings and the page starts scrolling to the
+  section after about 200ms. No zoom. Under reduced motion it jumps straight
+  there.
+- Perpetual animation is limited to the hero: the idle mining loop (ore
   cracks, breaks, drops a diamond, regrows) and the twinkling sky. Both pause
-  while a part is hovered or focused and when the tab is hidden, stop once a
-  section opens, and never run under `prefers-reduced-motion`.
+  while a part is hovered or focused, when the tab is hidden and while the
+  scene is scrolled out of view, and never run under `prefers-reduced-motion`.
 - Change the scene through its manifests and PNGs, not the modules; see
   `docs/scene-assets.md`. All art is original: no Mojang/Minecraft assets,
   skins or logos.
@@ -95,6 +108,7 @@ Check in the browser before calling UI work done:
 - No horizontal overflow or clipped controls at 320, 390, 768 and 1440px wide,
   in both languages (Vietnamese labels run longer).
 - Touch targets at least 44px; visible focus states; sensible keyboard order.
-- Reduced motion: no zoom, no loops, content still reachable.
+- Reduced motion: no smooth scroll, no swing, no loops, content still reachable.
 - Short screens and enlarged text still scroll to everything.
-- Links, the language switch and Back all work.
+- Links, the menu (and its narrow-screen Contents panel), the language switch,
+  Back/Forward and the old `/<section>/` URLs all work.

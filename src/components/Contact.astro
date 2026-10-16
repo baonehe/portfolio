@@ -15,7 +15,8 @@ const links = [
   { href: site.links.github, label: t.links.github },
   { href: site.links.linkedin, label: t.links.linkedin },
   { href: site.links.resume, label: t.links.resume },
-];
+  // only once they point somewhere real
+].filter((l) => l.href !== '#');
 ---
 
 <div class="contact">
@@ -28,18 +29,20 @@ const links = [
       <span set:html={ph(site.email)} />
     </a>
 
-    <ul class="contact__links">
-      {
-        links.map((l) => (
-          <li>
-            <a href={l.href}>
-              {l.label}
-              <PixelArt sprite={arrowOut} class="link-icon" />
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      links.length > 0 && (
+        <ul class="contact__links">
+          {links.map((l) => (
+            <li>
+              <a href={l.href}>
+                {l.label}
+                <PixelArt sprite={arrowOut} class="link-icon" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
 
     <footer class="footer">
       <p>© {new Date().getFullYear()} <span set:html={ph(site.name)} /></p>

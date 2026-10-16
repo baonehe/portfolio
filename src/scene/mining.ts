@@ -3,8 +3,9 @@
 // particles and pops out the drop, then the block grows back.
 //
 // It pauses while a visitor points at or focuses a target, while the tab is
-// hidden, and once a section is being opened (the `scene:select` event). It
-// never starts under reduced motion.
+// hidden, while the scene is scrolled out of view, and while a picked target's
+// swing plays (`scene:select` … `scene:settle`). The sky's twinkling pauses
+// with it (the scene gets `is-still`). It never starts under reduced motion.
 
 import { play, showFrame, stop } from './animator';
 import { burst } from './particles';
@@ -77,12 +78,14 @@ export function startMining(sceneEl: HTMLElement) {
   function resume() {
     if (running || holds.size) return;
     running = true;
+    sceneEl.classList.remove('is-still');
     // a block left broken grows back first
     timer = window.setTimeout(block.classList.contains('is-broken') ? respawn : swing, cfg.restMs);
   }
 
   function pause() {
     running = false;
+    sceneEl.classList.add('is-still');
     clearTimeout(timer);
     stop(sprite);
   }
@@ -109,12 +112,13 @@ export function startMining(sceneEl: HTMLElement) {
   });
   sceneEl.addEventListener('focusout', () => release('focus'));
   document.addEventListener('visibilitychange', () => (document.hidden ? hold('hidden') : release('hidden')));
-  // A section is opening: stop for good.
+  // A target was picked: its swing replaces the idle one.
   sceneEl.addEventListener('scene:select', () => hold('select'));
-  // Back from the bfcache: the select hold no longer applies.
-  addEventListener('pageshow', (e) => {
-    if (e.persisted) release('select');
-  });
+  sceneEl.addEventListener('scene:settle', () => release('select'));
+  // Only while the scene is on screen.
+  new IntersectionObserver(([entry]) => (entry.isIntersecting ? release('offscreen') : hold('offscreen'))).observe(
+    sceneEl.parentElement ?? sceneEl,
+  );
 
   resume();
 }

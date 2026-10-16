@@ -1,6 +1,7 @@
 # Đánh giá UI/UX portfolio
 
 Ngày đánh giá: 16/10/2026.
+Status: Completed.
 
 ## Phạm vi
 

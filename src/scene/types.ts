@@ -118,15 +118,6 @@ export interface NavTarget<Section extends string = string> {
   labelOffset?: { x: number; y: number };
 }
 
-export interface CameraConfig {
-  /** Padding around a target's hotspot when the camera frames it, as a fraction of its size. */
-  pad: number;
-  /** Zoom-in duration (ms). */
-  zoomMs: number;
-  /** Animation the character plays before the camera moves. */
-  selectAnimation: string;
-}
-
 /**
  * The idle loop: a character keeps mining a breakable object. It pauses while
  * a visitor points at or focuses a target, when the tab is hidden, and never
@@ -154,6 +145,7 @@ export interface Scene<Section extends string = string> {
   characters: { character: Character; x: number; y: number }[];
   objects: { object: SceneObject; x: number; y: number }[];
   targets: NavTarget<Section>[];
-  camera: CameraConfig;
+  /** Animation the character plays when a target is picked, before the page scrolls. */
+  selectAnimation: string;
   ambient?: Ambient;
 }

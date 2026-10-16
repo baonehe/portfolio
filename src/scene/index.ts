@@ -2,7 +2,6 @@
 // or the whole scene in the manifests; nothing here needs to change.
 
 import { sectionOrder, type SectionId } from '../i18n/content';
-import { frameAround } from './camera';
 import { overview } from './scenes/overview';
 import type { NavTarget, Rect, Scene } from './types';
 import { validateScene } from './validate';
@@ -22,8 +21,3 @@ export function targetRect(t: NavTarget): Rect {
   const r = placed.character.hotspots[hotspot];
   return { x: placed.x + r.x, y: placed.y + r.y, w: r.w, h: r.h };
 }
-
-export const target = (section: SectionId) => scene.targets.find((t) => t.section === section)!;
-
-/** The camera frame for a section, in scene units. */
-export const sectionFrame = (section: SectionId) => frameAround(targetRect(target(section)), scene.camera.pad);

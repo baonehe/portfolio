@@ -1,5 +1,6 @@
 ---
-import SectionPage from '../components/SectionPage.astro';
+// Old per-section URLs: each redirects to its section on the main page.
+import Moved from '../components/Moved.astro';
 import { sectionOrder } from '../i18n/content';
 
 export const getStaticPaths = () => sectionOrder.map((section) => ({ params: { section } }));
@@ -7,4 +8,4 @@ export const getStaticPaths = () => sectionOrder.map((section) => ({ params: { s
 const { section } = Astro.params as { section: (typeof sectionOrder)[number] };
 ---
 
-<SectionPage lang="en" id={section} />
+<Moved lang="en" id={section} />

@@ -33,11 +33,14 @@ export type Copy = typeof en;
 
 export const copy: Record<Lang, Copy> = { en, vi };
 
-export const sectionOrder = ['about', 'experience', 'projects', 'skills', 'education', 'contact'] as const;
+export const sectionOrder = ['about', 'projects', 'experience', 'skills', 'education', 'contact'] as const;
 
 export type SectionId = (typeof sectionOrder)[number];
 
 export const paths: Record<Lang, string> = { en: '/', vi: '/vi/' };
 
-/** URL of a section page (or the overview when no section is given). */
-export const href = (lang: Lang, section?: string) => `${paths[lang]}${section ? `${section}/` : ''}`;
+/** URL of a section on the main page (or the page itself when no section is given). */
+export const href = (lang: Lang, section?: string) => `${paths[lang]}${section ? `#${section}` : ''}`;
+
+/** Where each section lived before the site became one page; these URLs now redirect. */
+export const legacyHref = (lang: Lang, section: string) => `${paths[lang]}${section}/`;

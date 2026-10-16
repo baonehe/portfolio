@@ -90,8 +90,8 @@ export function validateScene<S extends string>(scene: Scene<S>, sections: reado
     const o = scene.objects.find((p) => p.object.id === a.object)?.object;
     if (!o?.breakable) fail(where, `ambient loop needs a breakable object; "${a.object}" is missing or not breakable`);
   }
-  if (!scene.characters.some(({ character }) => scene.camera.selectAnimation in character.animations)) {
-    fail(where, `no character has the select animation "${scene.camera.selectAnimation}"`);
+  if (!scene.characters.some(({ character }) => scene.selectAnimation in character.animations)) {
+    fail(where, `no character has the select animation "${scene.selectAnimation}"`);
   }
   for (const section of sections) {
     const n = scene.targets.filter((t) => t.section === section).length;

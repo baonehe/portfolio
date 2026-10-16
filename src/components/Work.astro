@@ -34,7 +34,7 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
                 <span class="pixel" set:html={ph(p.year)} />
                 <span class="label" set:html={ph(p.role)} />
               </p>
-              <h2 id={`${p.id}-title`} class="display project__title" set:html={ph(p.title)} />
+              <h3 id={`${p.id}-title`} class="display project__title" set:html={ph(p.title)} />
               <p class="project__summary" set:html={ph(p.summary)} />
 
               <dl class="project__facts">
@@ -62,16 +62,21 @@ const grounds = { rack: 'var(--accent)', database: 'var(--pop)', pipeline: 'var(
                     <li class="pixel" set:html={ph(s)} />
                   ))}
                 </ul>
-                <ul class="project__links">
-                  {p.links.map((l) => (
-                    <li>
-                      <a href={l.href}>
-                        {l.label}
-                        <PixelArt sprite={arrowOut} class="link-icon" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                {/* only links that point somewhere real */}
+                {p.links.some((l) => l.href !== '#') && (
+                  <ul class="project__links">
+                    {p.links
+                      .filter((l) => l.href !== '#')
+                      .map((l) => (
+                        <li>
+                          <a href={l.href}>
+                            {l.label}
+                            <PixelArt sprite={arrowOut} class="link-icon" />
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                )}
               </div>
             </article>
           </li>

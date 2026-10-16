@@ -23,7 +23,7 @@ export const overview: Scene<SectionId> = {
     { section: 'contact', on: { object: 'sign' }, label: 'left' },
     { section: 'education', on: { object: 'diamond-ore' }, label: 'right' },
   ],
-  camera: { pad: 0.45, zoomMs: 560, selectAnimation: 'select' },
+  selectAnimation: 'select',
   ambient: {
     character: 'miner',
     object: 'diamond-ore',

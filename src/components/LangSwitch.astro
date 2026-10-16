@@ -1,12 +1,13 @@
 ---
-import { copy, href, paths, type Lang } from '../i18n/content';
+// EN / VI. Links carry the section being read (navigator.ts keeps the hash
+// up to date), so switching language stays on the same section.
+import { copy, paths, type Lang } from '../i18n/content';
 
 interface Props {
   lang: Lang;
-  section?: string;
 }
 
-const { lang, section } = Astro.props;
+const { lang } = Astro.props;
 ---
 
 <nav class="lang" aria-label={copy[lang].ui.langLabel}>
@@ -14,11 +15,11 @@ const { lang, section } = Astro.props;
     (Object.keys(paths) as Lang[]).map((l) => (
       <a
         class="pixel"
-        href={href(l, section)}
+        href={paths[l]}
         hreflang={l}
         lang={l}
         aria-current={l === lang ? 'page' : undefined}
-        data-direct={section ? '' : undefined}
+        data-lang-base={paths[l]}
       >
         {l.toUpperCase()}
       </a>

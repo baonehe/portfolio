@@ -16,7 +16,7 @@ const t = copy[lang].education;
       t.items.map((item) => (
         <li class="degree">
           <p class="degree__period label" set:html={ph(item.period)} />
-          <h2 class="degree__title" set:html={ph(item.degree)} />
+          <h3 class="degree__title" set:html={ph(item.degree)} />
           <p class="degree__school" set:html={ph(item.school)} />
           <p class="degree__notes" set:html={ph(item.notes)} />
         </li>
@@ -25,7 +25,7 @@ const t = copy[lang].education;
   </ul>
 
   <section class="certs" aria-labelledby="certs-heading">
-    <h2 id="certs-heading" class="certs__title label">{t.certsTitle}</h2>
+    <h3 id="certs-heading" class="certs__title label">{t.certsTitle}</h3>
     <ul>
       {
         t.certs.map((cert) => (

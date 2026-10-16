@@ -1,0 +1,45 @@
+---
+// What an old section URL (/projects/, /vi/projects/ …) serves now that the
+// site is one page: an immediate redirect to the section on the main page,
+// plus a link for when the redirect doesn't run.
+import Base from '../layouts/Base.astro';
+import { copy, href, type Lang, type SectionId } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+  id: SectionId;
+}
+
+const { lang, id } = Astro.props;
+const t = copy[lang];
+const target = href(lang, id);
+const canonical = new URL(href(lang), Astro.site ?? Astro.url).href;
+---
+
+<Base lang={lang} title={t.sections[id].title}>
+  <Fragment slot="head">
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </Fragment>
+  <main class="moved wrap">
+    <p>{t.ui.moved}</p>
+    <a href={target}>{t.sections[id].title}</a>
+  </main>
+</Base>
+
+<style>
+  .moved {
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-9);
+  }
+
+  .moved a {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 75%;
+    font-size: 2.5rem;
+    color: var(--link);
+  }
+</style>
