@@ -65,13 +65,16 @@ export const sectionOrder = ['about', 'projects', 'experience', 'skills', 'educa
 
 export type SectionId = (typeof sectionOrder)[number];
 
-export const paths: Record<Lang, string> = { en: '/', vi: '/vi/' };
+/** Site base path (e.g. '/portfolio' on GitHub Pages), without a trailing slash. */
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+export const paths: Record<Lang, string> = { en: `${BASE}/`, vi: `${BASE}/vi/` };
 
 /** URL of a section on the main page (or the page itself when no section is given). */
 export const href = (lang: Lang, section?: string) => `${paths[lang]}${section ? `#${section}` : ''}`;
 
 /** The page listing every project, in full. */
-export const projectsPaths: Record<Lang, string> = { en: '/projects/', vi: '/vi/projects/' };
+export const projectsPaths: Record<Lang, string> = { en: `${BASE}/projects/`, vi: `${BASE}/vi/projects/` };
 
 /** Where each section lived before the site became one page; these URLs now redirect. */
 export const legacyHref = (lang: Lang, section: string) => `${paths[lang]}${section}/`;
